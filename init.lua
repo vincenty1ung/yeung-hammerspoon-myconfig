@@ -428,19 +428,19 @@ spoon.ModalMgr.supervisor:enter()
 
 
 ----------------------------------------------------------------------------------------------------
--------------------------------------------- vincnet.yeung ---------------------------------------------------
+-------------------------------------------- vincnet.yeung -----------------------------------------
 ----------------------------------------------------------------------------------------------------
--- 测试
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "E", hs.alert("真的牛逼"),function()
-    v =hs.battery
-  hs.alert.show(v)
-end)
 
--- Set hyper to ctrl + alt + cmd + shift 暂时没有f19键 取单个option键
+-- Set hyper to ctrl + alt + cmd + shift
 -- local hyper      = {'ctrl', 'cmd', 'alt', 'shift'}
-local hyper      = {'cmd'}
+-- local hyper = {'cmd'}
+-- hyper:https://zhuanlan.zhihu.com/p/71141438?utm_source=wechat_session&utm_medium=social&utm_oi=832042857366982656
+local hyper      = {'ctrl', 'cmd', 'alt', 'shift'}
+local cmd = {'cmd'}
+
 
 -- Move Mouse to center of next Monitor
+-- 快捷键：cmd+· 选择下一个屏幕
 hs.hotkey.bind(hyper, '`', function()
     local screen = hs.mouse.getCurrentScreen()
     local nextScreen = screen:next()
@@ -451,14 +451,90 @@ hs.hotkey.bind(hyper, '`', function()
     -- 左键点击
     hs.eventtap.leftClick(absolutePosition)
 
-    local frontmostWindow = hs.window.frontmostWindow()
-    local focus = frontmostWindow:focus()
-    -- hs.alert(focus)
-    local focusApplication = focus:application()
-    hs.alert("切换指针到下个屏幕")
-    hs.alert("选中软件")
-    hs.alert(focusApplication:name())
 
+    --spoon.WinWin:centerCursor()
+    --local frontmostWindow = hs.window.focusedWindow()
+    -- local focus = frontmostWindow:focus()
+    -- hs.alert(focus)
+    --local focusApplication = frontmostWindow:application()
+    --hs.alert("切换指针到下个屏幕")
+    --hs.alert("选中软件")
+    --hs.alert(focusApplication:name())
+
+end)
+
+
+-- 将屏幕分为上下左右四个布局 
+-- 快捷键：cmd+3 建立屏幕布局于快捷键的绑定，鼠标定位，hyper + m 回到主屏幕，hyper + up 回到主屏幕上的一个屏幕，hyper + down 回到主屏幕下的一个屏幕，hyper + left 回到主屏幕左边的屏幕，hyper + right 回到主屏幕右边的屏幕，
+local screenMap = {}
+function getScreens()
+    -- master/上/左/右/map
+    master, up, left, right, down = "master", "up", "left" , "right" , "down"
+    textScreens="当前Mac连接的显示器有："
+    screenCount = 0
+    local position = hs.screen.screenPositions()
+    if(position ~= "nil")
+    then
+        for hsScreenObj, positionVaule in pairs(position) 
+        do
+            screenCount = screenCount +1
+            if( positionVaule["x"]==0 and positionVaule["y"]==0 )
+            then
+                textScreens = textScreens..master..", "
+                screenMap[master]=hsScreenObj
+            elseif( positionVaule["x"]==0 and positionVaule["y"]==-1 )
+            then
+
+                textScreens = textScreens..up..", "
+                screenMap[up]=hsScreenObj
+            elseif( positionVaule["x"]==0 and positionVaule["y"]==1 )
+            then
+                textScreens = textScreens..down..", "
+                screenMap[down]=hsScreenObj
+            elseif( positionVaule["x"]==-1 and positionVaule["y"]==0 )
+            then             
+                textScreens = textScreens..left..", "
+                screenMap[left]=hsScreenObj
+            elseif( positionVaule["x"]==1 and positionVaule["y"]==0 )
+            then
+            
+                textScreens = textScreens..right..", "
+                screenMap[right]=hsScreenObj
+            else 
+                print("xxxxxscreen")
+            end
+        end
+    end
+
+    for key, screen in pairs(screenMap) 
+    do
+        if (key==master) 
+        then
+            hs.hotkey.bind(hyper, 'm', function()
+                local rect = screen:fullFrame()
+                local center = hs.geometry.rectMidPoint(rect)
+                local absolutePosition = hs.mouse.absolutePosition(center)
+                -- 左键点击
+                hs.eventtap.leftClick(absolutePosition)
+            end)
+        else 
+            hs.hotkey.bind(hyper, key, function()
+                local rect = screen:fullFrame()
+                local center = hs.geometry.rectMidPoint(rect)
+                local absolutePosition = hs.mouse.absolutePosition(center)
+                -- 左键点击
+                hs.eventtap.leftClick(absolutePosition)
+            end)
+        end
+    end
+    textScreens = textScreens.."共计:"..screenCount.."块屏幕.".."\n                            绑定键位加载完成。。"
+    hs.alert(textScreens)
+    
+end
+
+-- 获取全部显示器并绑定快捷键（生成绑定快捷键关系），用于鼠标指针快速定位到当前屏幕
+hs.hotkey.bind(cmd, '3', function()
+    getScreens()
 end)
 ----------------------------------------------------------------------------------------------------
 -------------------------------------------- End ---------------------------------------------------
