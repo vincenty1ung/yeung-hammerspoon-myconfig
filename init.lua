@@ -438,19 +438,27 @@ end)
 
 -- Set hyper to ctrl + alt + cmd + shift 暂时没有f19键 取单个option键
 -- local hyper      = {'ctrl', 'cmd', 'alt', 'shift'}
-local hyper      = {'alt'}
+local hyper      = {'cmd'}
 
 -- Move Mouse to center of next Monitor
 hs.hotkey.bind(hyper, '`', function()
-    hs.alert("切换指针到下个屏幕")
     local screen = hs.mouse.getCurrentScreen()
     local nextScreen = screen:next()
     local rect = nextScreen:fullFrame()
     local center = hs.geometry.rectMidPoint(rect)
-    hs.mouse.absolutePosition(center)
-    -- hs.mouse.setAbsolutePosition(center)
-    --指针命中焦点窗口
-    hs.window.focusedWindow()
+    local absolutePosition = hs.mouse.absolutePosition(center)
+
+    -- 左键点击
+    hs.eventtap.leftClick(absolutePosition)
+
+    local frontmostWindow = hs.window.frontmostWindow()
+    local focus = frontmostWindow:focus()
+    -- hs.alert(focus)
+    local focusApplication = focus:application()
+    hs.alert("切换指针到下个屏幕")
+    hs.alert("选中软件")
+    hs.alert(focusApplication:name())
+
 end)
 ----------------------------------------------------------------------------------------------------
 -------------------------------------------- End ---------------------------------------------------
