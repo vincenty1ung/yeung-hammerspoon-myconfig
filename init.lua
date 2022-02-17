@@ -477,6 +477,7 @@ function getScreens()
     then
         for hsScreenObj, positionVaule in pairs(position) 
         do
+            print(positionVaule["x"].."<x y>"..positionVaule["y"])
             screenCount = screenCount +1
             if( positionVaule["x"]==0 and positionVaule["y"]==0 )
             then
@@ -491,11 +492,13 @@ function getScreens()
             then
                 textScreens = textScreens..down..", "
                 screenMap[down]=hsScreenObj
-            elseif( positionVaule["x"]==-1 and positionVaule["y"]==0 )
+            --elseif( positionVaule["x"]==-1 and positionVaule["y"]==0 )
+            elseif( positionVaule["x"]==-1)
             then             
                 textScreens = textScreens..left..", "
                 screenMap[left]=hsScreenObj
-            elseif( positionVaule["x"]==1 and positionVaule["y"]==0 )
+            --elseif( positionVaule["x"]==1 and positionVaule["y"]==0 )
+            elseif( positionVaule["x"]==1)
             then
             
                 textScreens = textScreens..right..", "
