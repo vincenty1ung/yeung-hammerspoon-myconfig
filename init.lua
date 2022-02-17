@@ -465,7 +465,7 @@ end)
 
 
 -- 将屏幕分为上下左右四个布局 
--- 快捷键：cmd+3 建立屏幕布局于快捷键的绑定，鼠标定位，hyper + m 回到主屏幕，hyper + up 回到主屏幕上的一个屏幕，hyper + down 回到主屏幕下的一个屏幕，hyper + left 回到主屏幕左边的屏幕，hyper + right 回到主屏幕右边的屏幕，
+-- 快捷键：cmd+3 建立屏幕布局于快捷键的绑定，鼠标定位，hyper + a 回到主屏幕，hyper + up 回到主屏幕上的一个屏幕，hyper + down 回到主屏幕下的一个屏幕，hyper + left 回到主屏幕左边的屏幕，hyper + right 回到主屏幕右边的屏幕，
 local screenMap = {}
 function getScreens()
     -- master/上/左/右/map
@@ -510,7 +510,7 @@ function getScreens()
     do
         if (key==master) 
         then
-            hs.hotkey.bind(hyper, 'm', function()
+            hs.hotkey.bind(hyper, 'a', function()
                 local rect = screen:fullFrame()
                 local center = hs.geometry.rectMidPoint(rect)
                 local absolutePosition = hs.mouse.absolutePosition(center)

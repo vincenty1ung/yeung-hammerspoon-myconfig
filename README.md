@@ -4,17 +4,19 @@ hammerspoon-myconfig private fork to...
 
 
 > 本配置基于 vim 风格，实现了窗口管理，剪切板，倒计时，快速启动等功能。所有模式按照指定快捷键进入，所有模式都可以用 `esc` 或 `q`退出。在进入对应模式之前只有模式快捷键生效，进入对应模式之后此模式的操作快捷键生效。
+> 将屏幕分为上下左右四个布局
+> 快捷键：cmd+3 建立屏幕布局于快捷键的绑定，鼠标定位，hyper + a 回到主屏幕，hyper + up 回到主屏幕上的一个屏幕，hyper + down 回到主屏幕下的一个屏幕，hyper + left 回到主屏幕左边的屏幕，hyper + right 回到主屏幕右边的屏幕，
 
 ## 安装配置与升级:
 
 安装 hammerspoon 
 ```
-brew cask install hammerspoon
+brew install hammerspoon
 ```
 
 将配置文件克隆到本地根目录。
 ```
-git clone https://github.com/zuorn/hammerspoon_config ~/.hammerspoon
+git clone https://github.com/uncleyeung/yeung-hammerspoon-myconfig.git ~/.hammerspoon
 ```
 **重新加载配置文件即可生效**。
 
