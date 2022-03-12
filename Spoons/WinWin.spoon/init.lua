@@ -172,19 +172,19 @@ function obj:moveAndResize(option)
         elseif option == "shows" then
             -- cwin:setFrame({x=cres.x+cres.w/3/2/2, y=cres.h/96, w=cres.w/12*10, h=cres.h})
             cwin:setFrame({x=cres.x+cres.w/3/2/2, y=cres.y, w=cres.w/12*10, h=cres.h})
-         
-        -- 定义 center-2 
+        elseif option == "cornerNW" then
+            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h/2})
+        elseif option == "cornerNE" then
+            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h/2})
+        -- 定义 我需要的窗口模式
         elseif option == "center-2" then
-            cwin:setFrame({x=cres.x+cres.w/2/2, y=cres.y, w=cres.w/2, h=cres.h})
+            cwin:setFrame({x=cres.x+cres.w/10*2, y=cres.y+cres.h/10*1.5, w=cres.w/10*6, h=cres.h/10*7})
+            cwin:centerOnScreen()
              
         elseif option == "halfup" then
             cwin:setFrame({x=cres.x, y=cres.y, w=cres.w, h=cres.h/2})
         elseif option == "halfdown" then
             cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w, h=cres.h/2})
-        elseif option == "cornerNW" then
-            cwin:setFrame({x=cres.x, y=cres.y, w=cres.w/2, h=cres.h/2})
-        elseif option == "cornerNE" then
-            cwin:setFrame({x=cres.x+cres.w/2, y=cres.y, w=cres.w/2, h=cres.h/2})
         elseif option == "cornerSW" then
             cwin:setFrame({x=cres.x, y=cres.y+cres.h/2, w=cres.w/2, h=cres.h/2})
         elseif option == "cornerSE" then

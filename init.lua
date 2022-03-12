@@ -297,7 +297,7 @@ if spoon.WinWin then
     cmodal:bind('', 'Z', '展示显示', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("show") end)
     cmodal:bind('', 'V', '编辑显示', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("shows") end)
 
-    cmodal:bind('', 'X', '二分之一居中分屏', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("center-2") end)
+    cmodal:bind('', 'X', '进入我要的模式', function() spoon.WinWin:stash() spoon.WinWin:moveAndResize("center-2") end)
 
     cmodal:bind('', '=', '窗口放大', function() spoon.WinWin:moveAndResize("expand") end, nil, function() spoon.WinWin:moveAndResize("expand") end)
     cmodal:bind('', '-', '窗口缩小', function() spoon.WinWin:moveAndResize("shrink") end, nil, function() spoon.WinWin:moveAndResize("shrink") end)
@@ -469,7 +469,7 @@ end)
 local screenMap = {}
 function getScreens()
     -- master/上/左/右/map
-    master, up, left, right, down = "master", "up", "left" , "right" , "down"
+    master, up, left, right, down = "master", "w", "a" , "d" , "z"
     textScreens="当前Mac连接的显示器有："
     screenCount = 0
     local position = hs.screen.screenPositions()
@@ -513,7 +513,7 @@ function getScreens()
     do
         if (key==master) 
         then
-            hs.hotkey.bind(hyper, 'a', function()
+            hs.hotkey.bind(hyper, 's', function()
                 local rect = screen:fullFrame()
                 local center = hs.geometry.rectMidPoint(rect)
                 local absolutePosition = hs.mouse.absolutePosition(center)
@@ -538,6 +538,24 @@ end
 -- 获取全部显示器并绑定快捷键（生成绑定快捷键关系），用于鼠标指针快速定位到当前屏幕
 hs.hotkey.bind(cmd, '3', function()
     getScreens()
+end)
+
+-- 增加自己窗口模式
+hs.hotkey.bind(hyper, 'x', function()
+   spoon.WinWin:stash()
+   spoon.WinWin:moveAndResize("center-2")
+end)
+hs.hotkey.bind(hyper, 'left', function()
+   spoon.WinWin:stepMove("left")
+end)
+hs.hotkey.bind(hyper, 'right', function()
+   spoon.WinWin:stepMove("right")
+end)
+hs.hotkey.bind(hyper, 'up', function()
+   spoon.WinWin:stepMove("up")
+end)
+hs.hotkey.bind(hyper, 'down', function()
+   spoon.WinWin:stepMove("down")
 end)
 ----------------------------------------------------------------------------------------------------
 -------------------------------------------- End ---------------------------------------------------
