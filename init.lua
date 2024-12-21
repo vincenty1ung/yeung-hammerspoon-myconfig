@@ -1194,21 +1194,26 @@ hs.hotkey.bind(hSetEngInputKeys[1], hSetEngInputKeys[2], English)
 spoon.ModalMgr.supervisor:bind(hSetEngInputKeys[1], hSetEngInputKeys[2], "切换英文abc", english)
 --hs.hotkey.bind(hyper_oc, '.', Japanese)
 -- 我的窗口模式
--- hs.hotkey.bind(hWindowMyKeys[1], hWindowMyKeys[2], windowMy)
-spoon.ModalMgr.supervisor:bind(hWindowMyKeys[1], hWindowMyKeys[2], "我的窗口模式", windowMy)
+hs.hotkey.bind(hWindowMyKeys[1], hWindowMyKeys[2], windowMy)
+local windowMy1 = function() end
+spoon.ModalMgr.supervisor:bind(hWindowMyKeys[1], hWindowMyKeys[2], "我的窗口模式", windowMy1)
 -- 移动下个屏幕我的窗口
---hs.hotkey.bind(hNextDisplayWindowMyKeys[1], hNextDisplayWindowMyKeys[2], nextDisplayWindowMy)
+hs.hotkey.bind(hNextDisplayWindowMyKeys[1], hNextDisplayWindowMyKeys[2], nextDisplayWindowMy)
+local nextDisplayWindowMy1 = function() end
 spoon.ModalMgr.supervisor:bind(hNextDisplayWindowMyKeys[1], hNextDisplayWindowMyKeys[2], "移动下个屏幕我的窗口",
-    nextDisplayWindowMy)
+    nextDisplayWindowMy1)
 -- 窗口最大化
---hs.hotkey.bind(hWindowMaxKeys[1], hWindowMaxKeys[2], windowMax)
-spoon.ModalMgr.supervisor:bind(hWindowMaxKeys[1], hWindowMaxKeys[2], "窗口最大化", windowMax)
+hs.hotkey.bind(hWindowMaxKeys[1], hWindowMaxKeys[2], windowMax)
+local windowMax1 = function() end
+spoon.ModalMgr.supervisor:bind(hWindowMaxKeys[1], hWindowMaxKeys[2], "窗口最大化", windowMax1)
 -- 窗口移动左面
---hs.hotkey.bind(hWindowHalfleftKeys[1], hWindowHalfleftKeys[2], windowHalfleft)
-spoon.ModalMgr.supervisor:bind(hWindowHalfleftKeys[1], hWindowHalfleftKeys[2], "窗口移动左面", windowHalfleft)
+hs.hotkey.bind(hWindowHalfleftKeys[1], hWindowHalfleftKeys[2], windowHalfleft)
+local windowHalfleft1 = function() end
+spoon.ModalMgr.supervisor:bind(hWindowHalfleftKeys[1], hWindowHalfleftKeys[2], "窗口移动左面", windowHalfleft1)
 -- 窗口移动右面
---hs.hotkey.bind(hWindowHalfrightKeys[1], hWindowHalfrightKeys[2], windowhalfright)
-spoon.ModalMgr.supervisor:bind(hWindowHalfrightKeys[1], hWindowHalfrightKeys[2], "窗口移动右面", windowhalfright)
+hs.hotkey.bind(hWindowHalfrightKeys[1], hWindowHalfrightKeys[2], windowhalfright)
+local windowhalfright1 = function() end
+spoon.ModalMgr.supervisor:bind(hWindowHalfrightKeys[1], hWindowHalfrightKeys[2], "窗口移动右面", windowhalfright1)
 -- 双击两次cmd+q退出
 --quitModal:bind(hDPressCmdQTwiceToQuitKeys[1], hDPressCmdQTwiceToQuitKeys[2], doQuit)
 spoon.ModalMgr.supervisor:bind(hDPressCmdQTwiceToQuitKeys[1], hDPressCmdQTwiceToQuitKeys[2], "双击两次cmd+q退出", doQuit)
