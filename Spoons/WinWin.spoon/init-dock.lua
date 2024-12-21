@@ -4,7 +4,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/WinWin.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/WinWin.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -34,17 +34,17 @@ function obj:stepMove(direction)
     if cwin then
         local cscreen = cwin:screen()
         local cres = cscreen:fullFrame()
-        local stepw = cres.w/obj.gridparts
-        local steph = cres.h/obj.gridparts
+        local stepw = cres.w / obj.gridparts
+        local steph = cres.h / obj.gridparts
         local wtopleft = cwin:topLeft()
         if direction == "left" then
-            cwin:setTopLeft({x=wtopleft.x-stepw, y=wtopleft.y})
+            cwin:setTopLeft({ x = wtopleft.x - stepw, y = wtopleft.y })
         elseif direction == "right" then
-            cwin:setTopLeft({x=wtopleft.x+stepw, y=wtopleft.y})
+            cwin:setTopLeft({ x = wtopleft.x + stepw, y = wtopleft.y })
         elseif direction == "up" then
-            cwin:setTopLeft({x=wtopleft.x, y=wtopleft.y-steph})
+            cwin:setTopLeft({ x = wtopleft.x, y = wtopleft.y - steph })
         elseif direction == "down" then
-            cwin:setTopLeft({x=wtopleft.x, y=wtopleft.y+steph})
+            cwin:setTopLeft({ x = wtopleft.x, y = wtopleft.y + steph })
         end
     else
         hs.alert.show("No focused window!")
@@ -62,17 +62,17 @@ function obj:stepResize(direction)
     if cwin then
         local cscreen = cwin:screen()
         local cres = cscreen:fullFrame()
-        local stepw = cres.w/obj.gridparts
-        local steph = cres.h/obj.gridparts
+        local stepw = cres.w / obj.gridparts
+        local steph = cres.h / obj.gridparts
         local wsize = cwin:size()
         if direction == "left" then
-            cwin:setSize({w=wsize.w-stepw, h=wsize.h})
+            cwin:setSize({ w = wsize.w - stepw, h = wsize.h })
         elseif direction == "right" then
-            cwin:setSize({w=wsize.w+stepw, h=wsize.h})
+            cwin:setSize({ w = wsize.w + stepw, h = wsize.h })
         elseif direction == "up" then
-            cwin:setSize({w=wsize.w, h=wsize.h-steph})
+            cwin:setSize({ w = wsize.w, h = wsize.h - steph })
         elseif direction == "down" then
-            cwin:setSize({w=wsize.w, h=wsize.h+steph})
+            cwin:setSize({ w = wsize.w, h = wsize.h + steph })
         end
     else
         hs.alert.show("No focused window!")
@@ -85,7 +85,7 @@ end
 ---
 
 local function isInHistory(windowid)
-    for idx,val in ipairs(obj.history) do
+    for idx, val in ipairs(obj.history) do
         if val[1] == windowid then
             return idx
         end
@@ -117,7 +117,7 @@ function obj:stash()
         -- Make sure the history of window id doesn't reach the maximum (100 items).
         if #obj.history > 100 then table.remove(obj.history) end
         -- Stash new window id and its first history
-        local newtable = {winid, {winf}}
+        local newtable = { winid, { winf } }
         table.insert(obj.history, 1, newtable)
     end
 end
@@ -135,53 +135,49 @@ function obj:moveAndResize(option)
     if cwin then
         local cscreen = cwin:screen()
         local cres = cscreen:fullFrame()
-        local stepw = cres.w/obj.gridparts
-        local steph = cres.h/obj.gridparts
+        local stepw = cres.w / obj.gridparts
+        local steph = cres.h / obj.gridparts
         local wf = cwin:frame()
         if option == "halfleft" then
-            cwin:setFrame({x=cres.x +50, y=cres.y, w=cres.w/2 -25, h=cres.h})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y, w = cres.w / 2 - 25, h = cres.h })
         elseif option == "halfright" then
-            cwin:setFrame({x=cres.x +25+cres.w/2, y=cres.y, w=cres.w/2 -25, h=cres.h})
+            cwin:setFrame({ x = cres.x + 25 + cres.w / 2, y = cres.y, w = cres.w / 2 - 25, h = cres.h })
 
 
-        -- 定义  lesshalfleft、onethird、lesshalfright
+            -- 定义  lesshalfleft、onethird、lesshalfright
         elseif option == "lesshalfleft" then
-            cwin:setFrame({x=cres.x +50, y=cres.y, w=cres.w/3 - 50/3 , h=cres.h})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y, w = cres.w / 3 - 50 / 3, h = cres.h })
         elseif option == "onethird" then
-            cwin:setFrame({x=cres.x +50/3*2 +cres.w/3, y=cres.y, w=cres.w/3 - 50/3 , h=cres.h})
+            cwin:setFrame({ x = cres.x + 50 / 3 * 2 + cres.w / 3, y = cres.y, w = cres.w / 3 - 50 / 3, h = cres.h })
         elseif option == "lesshalfright" then
-            cwin:setFrame({x=cres.x +50/3 +cres.w/3*2, y=cres.y, w=cres.w/3 - 50/3, h=cres.h})
-        
-        -- 定义 mostleft、mostright
+            cwin:setFrame({ x = cres.x + 50 / 3 + cres.w / 3 * 2, y = cres.y, w = cres.w / 3 - 50 / 3, h = cres.h })
+
+            -- 定义 mostleft、mostright
         elseif option == "mostleft" then
-            cwin:setFrame({x=cres.x +50, y=cres.y, w=cres.w/3 *2 -50/3*2, h=cres.h})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y, w = cres.w / 3 * 2 - 50 / 3 * 2, h = cres.h })
         elseif option == "mostright" then
-            cwin:setFrame({x=cres.x +50/3*2+cres.w/3, y=cres.y, w=cres.w/3 *2 -50/3*2, h=cres.h})
-
-            
-            
+            cwin:setFrame({ x = cres.x + 50 / 3 * 2 + cres.w / 3, y = cres.y, w = cres.w / 3 * 2 - 50 / 3 * 2, h = cres
+            .h })
         elseif option == "halfup" then
-            cwin:setFrame({x=cres.x +50, y=cres.y, w=cres.w, h=cres.h/2})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y, w = cres.w, h = cres.h / 2 })
         elseif option == "halfdown" then
-            cwin:setFrame({x=cres.x +50, y=cres.y+cres.h/2, w=cres.w, h=cres.h/2})
-
+            cwin:setFrame({ x = cres.x + 50, y = cres.y + cres.h / 2, w = cres.w, h = cres.h / 2 })
         elseif option == "cornerNW" then
-            cwin:setFrame({x=cres.x +50, y=cres.y, w=cres.w/2 -50, h=cres.h/2})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y, w = cres.w / 2 - 50, h = cres.h / 2 })
         elseif option == "cornerNE" then
-            cwin:setFrame({x=cres.x +50+cres.w/2, y=cres.y, w=cres.w/2 -50, h=cres.h/2})
+            cwin:setFrame({ x = cres.x + 50 + cres.w / 2, y = cres.y, w = cres.w / 2 - 50, h = cres.h / 2 })
         elseif option == "cornerSW" then
-            cwin:setFrame({x=cres.x +50, y=cres.y+cres.h/2, w=cres.w/2 -50, h=cres.h/2})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y + cres.h / 2, w = cres.w / 2 - 50, h = cres.h / 2 })
         elseif option == "cornerSE" then
-            cwin:setFrame({x=cres.x +50+cres.w/2, y=cres.y+cres.h/2, w=cres.w/2 -50, h=cres.h/2})
-
+            cwin:setFrame({ x = cres.x + 50 + cres.w / 2, y = cres.y + cres.h / 2, w = cres.w / 2 - 50, h = cres.h / 2 })
         elseif option == "fullscreen" then
-            cwin:setFrame({x=cres.x +50, y=cres.y, w=cres.w, h=cres.h})
+            cwin:setFrame({ x = cres.x + 50, y = cres.y, w = cres.w, h = cres.h })
         elseif option == "center" then
             cwin:centerOnScreen()
         elseif option == "expand" then
-            cwin:setFrame({x=wf.x-stepw, y=wf.y-steph, w=wf.w+(stepw*2), h=wf.h+(steph*2)})
+            cwin:setFrame({ x = wf.x - stepw, y = wf.y - steph, w = wf.w + (stepw * 2), h = wf.h + (steph * 2) })
         elseif option == "shrink" then
-            cwin:setFrame({x=wf.x+stepw, y=wf.y+steph, w=wf.w-(stepw*2), h=wf.h-(steph*2)})
+            cwin:setFrame({ x = wf.x + stepw, y = wf.y + steph, w = wf.w - (stepw * 2), h = wf.h - (steph * 2) })
         end
     else
         hs.alert.show("No focused window!")
@@ -290,10 +286,10 @@ function obj:centerCursor()
     local cres = cscreen:fullFrame()
     if cwin then
         -- Center the cursor one the focused window
-        hs.mouse.setAbsolutePosition({x=wf.x+wf.w/2, y=wf.y+wf.h/2})
+        hs.mouse.setAbsolutePosition({ x = wf.x + wf.w / 2, y = wf.y + wf.h / 2 })
     else
         -- Center the cursor on the screen
-        hs.mouse.setAbsolutePosition({x=cres.x +50+cres.w/2, y=cres.y+cres.h/2})
+        hs.mouse.setAbsolutePosition({ x = cres.x + 50 + cres.w / 2, y = cres.y + cres.h / 2 })
     end
 end
 

@@ -4,7 +4,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/VolumeScroll.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/VolumeScroll.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -25,7 +25,7 @@ obj.license = "MIT - https://opensource.org/licenses/MIT"
 --- Returns:
 ---  * void
 function obj:init()
-    self.modifiers = hs.eventtap.event.newScrollEvent({0,0}, {'alt'})
+    self.modifiers = hs.eventtap.event.newScrollEvent({ 0, 0 }, { 'alt' })
     self.flags = self.modifiers:getFlags()
 end
 
@@ -40,11 +40,11 @@ end
 ---  * void
 function obj:start(mods)
     if mods ~= nil and type(mods) == 'table' then
-        self.modifiers = hs.eventtap.event.newScrollEvent({0,0}, mods)
+        self.modifiers = hs.eventtap.event.newScrollEvent({ 0, 0 }, mods)
         self.flags = self.modifiers:getFlags()
     end
 
-    self.scrollWatcher = hs.eventtap.new({hs.eventtap.event.types.scrollWheel}, function(event)
+    self.scrollWatcher = hs.eventtap.new({ hs.eventtap.event.types.scrollWheel }, function(event)
         local currentMods = event:getFlags()
         if self:sameMods(currentMods) then
             local direction = event:getProperty(hs.eventtap.event.properties.scrollWheelEventFixedPtDeltaAxis1)

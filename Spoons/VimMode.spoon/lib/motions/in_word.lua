@@ -5,40 +5,40 @@ local Motion = dofile(vimModeScriptPath .. "lib/motion.lua")
 local stringUtils = dofile(vimModeScriptPath .. "lib/utils/string_utils.lua")
 local utf8 = dofile(vimModeScriptPath .. "vendor/luautf8.lua")
 
-local InWord = Motion:new{ name = 'in_word' }
+local InWord = Motion:new { name = 'in_word' }
 
 function InWord:getRange(buffer)
-  local start = buffer:getCaretPosition()
-  local finish = start
+    local start = buffer:getCaretPosition()
+    local finish = start
 
-  local atBeginning = stringUtils.isWordBoundary(buffer:prevChar())
+    local atBeginning = stringUtils.isWordBoundary(buffer:prevChar())
 
-  if not atBeginning then
-    local beginningOfWord = BackWord:new()
-    local startRange = beginningOfWord:getRange(buffer)
+    if not atBeginning then
+        local beginningOfWord = BackWord:new()
+        local startRange = beginningOfWord:getRange(buffer)
 
-    start = startRange.start
-  end
+        start = startRange.start
+    end
 
-  local atEnd = stringUtils.isWordBoundary(buffer:nextChar())
+    local atEnd = stringUtils.isWordBoundary(buffer:nextChar())
 
-  if not atEnd then
-    local endOfWord = EndOfWord:new()
-    local endRange = endOfWord:getRange(buffer)
+    if not atEnd then
+        local endOfWord = EndOfWord:new()
+        local endRange = endOfWord:getRange(buffer)
 
-    finish = endRange.finish
-  end
+        finish = endRange.finish
+    end
 
-  return {
-    start = start,
-    finish = finish,
-    mode = 'inclusive',
-    direction = 'characterwise',
-  }
+    return {
+        start = start,
+        finish = finish,
+        mode = 'inclusive',
+        direction = 'characterwise',
+    }
 end
 
 function InWord.getMovements()
-  return nil
+    return nil
 end
 
 return InWord

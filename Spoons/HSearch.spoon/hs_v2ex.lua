@@ -1,4 +1,4 @@
-local obj={}
+local obj = {}
 obj.__index = obj
 
 obj.name = "v2exPosts"
@@ -14,9 +14,10 @@ end
 obj.spoonPath = script_path()
 
 -- Define the source's overview. A unique `keyword` key should exist, so this source can be found.
-obj.overview = {text="Type v ⇥ to fetch v2ex posts.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/v2ex.png"), keyword="v"}
+obj.overview = { text = "Type v ⇥ to fetch v2ex posts.", image = hs.image.imageFromPath(obj.spoonPath ..
+"/resources/v2ex.png"), keyword = "v" }
 -- Define the notice when a long-time request is being executed. It could be `nil`.
-obj.notice = {text="Requesting data, please wait a while …"}
+obj.notice = { text = "Requesting data, please wait a while …" }
 
 local function v2exRequest()
     local query_url = 'https://www.v2ex.com/api/topics/latest.json'
@@ -29,15 +30,18 @@ local function v2exRequest()
                         local sub_content = string.gsub(item.content, "\r\n", " ")
                         local function trim_content()
                             if utf8.len(sub_content) > 40 then
-                                return string.sub(sub_content, 1, utf8.offset(sub_content, 40)-1)
+                                return string.sub(sub_content, 1, utf8.offset(sub_content, 40) - 1)
                             else
                                 return sub_content
                             end
                         end
                         local final_content = trim_content()
-                        return {text=item.title, subText=final_content, image=hs.image.imageFromPath(obj.spoonPath .. "/resources/v2ex.png"), outputType="browser", arg=item.url}
+                        return { text = item.title, subText = final_content, image = hs.image.imageFromPath(obj
+                        .spoonPath .. "/resources/v2ex.png"), outputType = "browser", arg = item.url }
                     end)
-                    local source_desc = {text="v2ex Posts", subText="Select some item to get it opened in default browser …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/v2ex.png")}
+                    local source_desc = { text = "v2ex Posts", subText =
+                    "Select some item to get it opened in default browser …", image = hs.image.imageFromPath(obj
+                    .spoonPath .. "/resources/v2ex.png") }
                     table.insert(chooser_data, 1, source_desc)
                     -- Because we don't know when asyncGet will return data, we have to refresh hs.chooser choices in this callback.
                     if spoon.HSearch then

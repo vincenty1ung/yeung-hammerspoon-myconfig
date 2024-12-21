@@ -1,4 +1,4 @@
-local obj={}
+local obj = {}
 obj.__index = obj
 
 obj.name = "thesaurusDM"
@@ -14,13 +14,14 @@ end
 obj.spoonPath = script_path()
 
 -- Define the source's overview. A unique `keyword` key should exist, so this source can be found.
-obj.overview = {text="Type s ⇥ to request English Thesaurus.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/thesaurus.png"), keyword="s"}
+obj.overview = { text = "Type s ⇥ to request English Thesaurus.", image = hs.image.imageFromPath(obj.spoonPath ..
+"/resources/thesaurus.png"), keyword = "s" }
 -- Define the notice when a long-time request is being executed. It could be `nil`.
 obj.notice = nil
 
 local function dmTips()
     local chooser_data = {
-        {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/thesaurus.png")}
+        { text = "Datamuse Thesaurus", subText = "Type something to get more words like it …", image = hs.image.imageFromPath(obj.spoonPath .. "/resources/thesaurus.png") }
     }
     return chooser_data
 end
@@ -45,7 +46,8 @@ local function thesaurusRequest(querystr)
                     local decoded_data = hs.json.decode(data)
                     if #decoded_data > 0 then
                         local chooser_data = hs.fnutils.imap(decoded_data, function(item)
-                            return {text = item.word, image=hs.image.imageFromPath(obj.spoonPath .. "/resources/thesaurus.png"), output="keystrokes", arg=item.word}
+                            return { text = item.word, image = hs.image.imageFromPath(obj.spoonPath ..
+                            "/resources/thesaurus.png"), output = "keystrokes", arg = item.word }
                         end)
                         -- Because we don't know when asyncGet will return data, we have to refresh hs.chooser choices in this callback.
                         if spoon.HSearch then
@@ -59,7 +61,7 @@ local function thesaurusRequest(querystr)
         end)
     else
         local chooser_data = {
-            {text="Datamuse Thesaurus", subText="Type something to get more words like it …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/thesaurus.png")}
+            { text = "Datamuse Thesaurus", subText = "Type something to get more words like it …", image = hs.image.imageFromPath(obj.spoonPath .. "/resources/thesaurus.png") }
         }
         if spoon.HSearch then
             spoon.HSearch.chooser:choices(chooser_data)

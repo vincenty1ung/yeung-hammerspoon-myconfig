@@ -1,4 +1,4 @@
-local obj={}
+local obj = {}
 obj.__index = obj
 
 obj.name = "youdaoDict"
@@ -14,13 +14,14 @@ end
 obj.spoonPath = script_path()
 
 -- Define the source's overview. A unique `keyword` key should exist, so this source can be found.
-obj.overview = {text="Type y ⇥ to use Yaodao dictionary.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/youdao.png"), keyword="y"}
+obj.overview = { text = "Type y ⇥ to use Yaodao dictionary.", image = hs.image.imageFromPath(obj.spoonPath ..
+"/resources/youdao.png"), keyword = "y" }
 -- Define the notice when a long-time request is being executed. It could be `nil`.
 obj.notice = nil
 
 local function youdaoTips()
     local chooser_data = {
-        {text="Youdao Dictionary", subText="Type something to get it translated …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/youdao.png")}
+        { text = "Youdao Dictionary", subText = "Type something to get it translated …", image = hs.image.imageFromPath(obj.spoonPath .. "/resources/youdao.png") }
     }
     return chooser_data
 end
@@ -50,7 +51,8 @@ end
 local function youdaoInstantTrans(querystr)
     local youdao_keyfrom = 'hsearch'
     local youdao_apikey = '1199732752'
-    local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom=' .. youdao_keyfrom .. '&key=' .. youdao_apikey .. '&type=data&doctype=json&version=1.1&q='
+    local youdao_baseurl = 'http://fanyi.youdao.com/openapi.do?keyfrom=' ..
+    youdao_keyfrom .. '&key=' .. youdao_apikey .. '&type=data&doctype=json&version=1.1&q='
     if string.len(querystr) > 0 then
         local encoded_query = hs.http.encodeForQuery(querystr)
         local query_url = youdao_baseurl .. encoded_query
@@ -65,7 +67,8 @@ local function youdaoInstantTrans(querystr)
                         local dictpool = hs.fnutils.concat(basictrans, webtrans)
                         if #dictpool > 0 then
                             local chooser_data = hs.fnutils.imap(dictpool, function(item)
-                                return {text=item, image=hs.image.imageFromPath(obj.spoonPath .. "/resources/youdao.png"), output="clipboard", arg=item}
+                                return { text = item, image = hs.image.imageFromPath(obj.spoonPath ..
+                                "/resources/youdao.png"), output = "clipboard", arg = item }
                             end)
                             -- Because we don't know when asyncGet will return data, we have to refresh hs.chooser choices in this callback.
                             if spoon.HSearch then
@@ -80,7 +83,7 @@ local function youdaoInstantTrans(querystr)
         end)
     else
         local chooser_data = {
-            {text="Youdao Dictionary", subText="Type something to get it translated …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/youdao.png")}
+            { text = "Youdao Dictionary", subText = "Type something to get it translated …", image = hs.image.imageFromPath(obj.spoonPath .. "/resources/youdao.png") }
         }
         if spoon.HSearch then
             spoon.HSearch.chooser:choices(chooser_data)

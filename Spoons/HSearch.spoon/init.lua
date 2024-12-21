@@ -4,7 +4,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/HSearch.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/HSearch.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -24,7 +24,7 @@ obj.spoonPath = script_path()
 
 obj.sources = {}
 obj.sources_overview = {}
-obj.search_path = {hs.configdir .. "/private/hsearch_dir", obj.spoonPath}
+obj.search_path = { hs.configdir .. "/private/hsearch_dir", obj.spoonPath }
 obj.hotkeys = {}
 obj.source_kw = nil
 
@@ -64,8 +64,8 @@ function obj:init()
     obj.chooser = hs.chooser.new(function(chosen)
         obj.trigger:disable()
         -- Disable all hotkeys
-        for _,val in pairs(obj.hotkeys) do
-            for i=1,#val do
+        for _, val in pairs(obj.hotkeys) do
+            for i = 1, #val do
                 val[i]:disable()
             end
         end
@@ -108,22 +108,22 @@ function obj:switchSource()
                 else
                     obj.source_kw = nil
                     local chooser_data = {
-                        {text="No source found!", subText="Maybe misspelled the keyword?"},
-                        {text="Want to add your own source?", subText="Feel free to read the code and open PRs. :)"}
+                        { text = "No source found!",           subText = "Maybe misspelled the keyword?" },
+                        { text = "Want to add your own source?", subText = "Feel free to read the code and open PRs. :)" }
                     }
                     obj.chooser:choices(chooser_data)
                     obj.chooser:queryChangedCallback()
-                    hs.eventtap.keyStroke({"cmd"}, "a")
+                    hs.eventtap.keyStroke({ "cmd" }, "a")
                 end
             end
         else
             obj.source_kw = nil
             local chooser_data = {
-                {text="Invalid Keyword", subText="Trigger keyword must only consist of alphanumeric characters."}
+                { text = "Invalid Keyword", subText = "Trigger keyword must only consist of alphanumeric characters." }
             }
             obj.chooser:choices(chooser_data)
             obj.chooser:queryChangedCallback()
-            hs.eventtap.keyStroke({"cmd"}, "a")
+            hs.eventtap.keyStroke({ "cmd" }, "a")
         end
     else
         local row_content = obj.chooser:selectedRowContents()
@@ -143,20 +143,20 @@ function obj:switchSource()
         end
     end
     if obj.source_kw then
-        for key,val in pairs(obj.hotkeys) do
+        for key, val in pairs(obj.hotkeys) do
             if key == obj.source_kw then
-                for i=1,#val do
+                for i = 1, #val do
                     val[i]:enable()
                 end
             else
-                for i=1,#val do
+                for i = 1, #val do
                     val[i]:disable()
                 end
             end
         end
     else
-        for _,val in pairs(obj.hotkeys) do
-            for i=1,#val do
+        for _, val in pairs(obj.hotkeys) do
+            for i = 1, #val do
                 val[i]:disable()
             end
         end
@@ -172,7 +172,7 @@ function obj:loadSources()
     obj.sources = {}
     obj.sources_overview = {}
     obj:restoreOutput()
-    for _,dir in ipairs(obj.search_path) do
+    for _, dir in ipairs(obj.search_path) do
         local file_list = io.popen("find " .. dir .. " -type f -name '*.lua'")
         for file in file_list:lines() do
             -- Exclude self
@@ -189,7 +189,7 @@ function obj:loadSources()
                     if hotkey then obj.hotkeys[overview.keyword] = hotkey end
                     local function sourceFunc()
                         local notice = source.notice
-                        if notice then obj.chooser:choices({notice}) end
+                        if notice then obj.chooser:choices({ notice }) end
                         local request = source.init_func
                         if request then
                             local chooser_data = request()
@@ -231,8 +231,8 @@ function obj:toggleShow()
     if obj.chooser:isVisible() then
         obj.chooser:hide()
         obj.trigger:disable()
-        for _,val in pairs(obj.hotkeys) do
-            for i=1,#val do
+        for _, val in pairs(obj.hotkeys) do
+            for i = 1, #val do
                 val[i]:disable()
             end
         end
@@ -242,9 +242,9 @@ function obj:toggleShow()
         else
             obj.trigger:enable()
         end
-        for key,val in pairs(obj.hotkeys) do
+        for key, val in pairs(obj.hotkeys) do
             if key == obj.source_kw then
-                for i=1,#val do
+                for i = 1, #val do
                     val[i]:enable()
                 end
             end

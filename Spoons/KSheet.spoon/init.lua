@@ -4,7 +4,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/KSheet.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/KSheet.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -15,7 +15,7 @@ obj.homepage = "https://github.com/Hammerspoon/Spoons"
 obj.license = "MIT - https://opensource.org/licenses/MIT"
 
 -- Workaround for "Dictation" menuitem
-hs.application.menuGlyphs[148]="fn fn"
+hs.application.menuGlyphs[148] = "fn fn"
 
 obj.commandEnum = {
     cmd = '⌘',
@@ -25,7 +25,7 @@ obj.commandEnum = {
 }
 
 function obj:init()
-    self.sheetView = hs.webview.new({x=0, y=0, w=0, h=0})
+    self.sheetView = hs.webview.new({ x = 0, y = 0, w = 0, h = 0 })
     self.sheetView:windowTitle("CheatSheets")
     self.sheetView:windowStyle("utility")
     self.sheetView:allowGestures(true)
@@ -35,30 +35,33 @@ end
 
 local function processMenuItems(menustru)
     local menu = ""
-        for pos,val in pairs(menustru) do
-            if type(val) == "table" then
-                -- TODO: Remove menubar items with no shortcuts in them
-                if val.AXRole == "AXMenuBarItem" and type(val.AXChildren) == "table" then
-                    menu = menu .. "<ul class='col col" .. pos .. "'>"
-                    menu = menu .. "<li class='title'><strong>" .. val.AXTitle .. "</strong></li>"
-                    menu = menu .. processMenuItems(val.AXChildren[1])
-                    menu = menu .. "</ul>"
-                elseif val.AXRole == "AXMenuItem" and not val.AXChildren then
-                    if not (val.AXMenuItemCmdChar == '' and val.AXMenuItemCmdGlyph == '') then
-                        local CmdModifiers = ''
-                        for key, value in pairs(val.AXMenuItemCmdModifiers) do
-                            CmdModifiers = CmdModifiers .. obj.commandEnum[value]
-                        end
-                        local CmdChar = val.AXMenuItemCmdChar
-                        local CmdGlyph = hs.application.menuGlyphs[val.AXMenuItemCmdGlyph] or ''
-                        local CmdKeys = CmdChar .. CmdGlyph
-                        menu = menu .. "<li><div class='cmdModwifiers'>" .. CmdModifiers .. " " .. CmdKeys .. "</div><div class='cmdtext'>" .. " " .. val.AXTitle .. "</div></li>"
+    for pos, val in pairs(menustru) do
+        if type(val) == "table" then
+            -- TODO: Remove menubar items with no shortcuts in them
+            if val.AXRole == "AXMenuBarItem" and type(val.AXChildren) == "table" then
+                menu = menu .. "<ul class='col col" .. pos .. "'>"
+                menu = menu .. "<li class='title'><strong>" .. val.AXTitle .. "</strong></li>"
+                menu = menu .. processMenuItems(val.AXChildren[1])
+                menu = menu .. "</ul>"
+            elseif val.AXRole == "AXMenuItem" and not val.AXChildren then
+                if not (val.AXMenuItemCmdChar == '' and val.AXMenuItemCmdGlyph == '') then
+                    local CmdModifiers = ''
+                    for key, value in pairs(val.AXMenuItemCmdModifiers) do
+                        CmdModifiers = CmdModifiers .. obj.commandEnum[value]
                     end
-                elseif val.AXRole == "AXMenuItem" and type(val.AXChildren) == "table" then
-                    menu = menu .. processMenuItems(val.AXChildren[1])
+                    local CmdChar = val.AXMenuItemCmdChar
+                    local CmdGlyph = hs.application.menuGlyphs[val.AXMenuItemCmdGlyph] or ''
+                    local CmdKeys = CmdChar .. CmdGlyph
+                    menu = menu ..
+                    "<li><div class='cmdModwifiers'>" ..
+                    CmdModifiers ..
+                    " " .. CmdKeys .. "</div><div class='cmdtext'>" .. " " .. val.AXTitle .. "</div></li>"
                 end
+            elseif val.AXRole == "AXMenuItem" and type(val.AXChildren) == "table" then
+                menu = menu .. processMenuItems(val.AXChildren[1])
             end
         end
+    end
     return menu
 end
 
@@ -192,10 +195,10 @@ function obj:show()
     local cscreen = hs.screen.mainScreen()
     local cres = cscreen:fullFrame()
     self.sheetView:frame({
-        x = cres.x+cres.w*0.15/2,
-        y = cres.y+cres.h*0.25/2,
-        w = cres.w*0.85,
-        h = cres.h*0.75
+        x = cres.x + cres.w * 0.15 / 2,
+        y = cres.y + cres.h * 0.25 / 2,
+        w = cres.w * 0.85,
+        h = cres.h * 0.75
     })
     local webcontent = generateHtml(capp)
     self.sheetView:html(webcontent)

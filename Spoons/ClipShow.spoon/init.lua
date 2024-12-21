@@ -4,7 +4,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ClipShow.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ClipShow.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -20,30 +20,30 @@ obj.lastsession = nil
 
 
 function obj:init()
-    obj.canvas = hs.canvas.new({x=0, y=0, w=0, h=0})
+    obj.canvas = hs.canvas.new({ x = 0, y = 0, w = 0, h = 0 })
     obj.canvas[1] = {
         type = "rectangle",
         action = "fill",
-        fillColor = {hex="#000000", alpha=0.75}
+        fillColor = { hex = "#000000", alpha = 0.75 }
     }
     obj.canvas[2] = {
         type = "segments",
-        strokeColor = {hex = "#FFFFFF", alpha = 0.1},
+        strokeColor = { hex = "#FFFFFF", alpha = 0.1 },
         coordinates = {
-            {x="1%", y="72%"},
-            {x="72%", y="72%"}
+            { x = "1%", y = "72%" },
+            { x = "72%", y = "72%" }
         }
     }
     obj.canvas[3] = {
         type = "segments",
-        strokeColor = {hex = "#FFFFFF", alpha = 0.1},
+        strokeColor = { hex = "#FFFFFF", alpha = 0.1 },
         coordinates = {
-            {x="72%", y="1%"},
-            {x="72%", y="99%"}
+            { x = "72%", y = "1%" },
+            { x = "72%", y = "99%" }
         }
     }
-    obj.canvas[4] = {type = "text", text = ""}
-    obj.canvas[5] = {type = "text"}
+    obj.canvas[4] = { type = "text", text = "" }
+    obj.canvas[5] = { type = "text" }
     obj.canvas:level(hs.canvas.windowLevels.tornOffMenu)
 end
 
@@ -61,10 +61,10 @@ function obj:adjustCanvas()
     local cscreen = hs.screen.mainScreen()
     local cres = cscreen:fullFrame()
     obj.canvas:frame({
-        x = cres.x+cres.w*0.15/2,
-        y = cres.y+cres.h*0.25/2,
-        w = cres.w*0.85,
-        h = cres.h*0.75
+        x = cres.x + cres.w * 0.15 / 2,
+        y = cres.y + cres.h * 0.25 / 2,
+        w = cres.w * 0.85,
+        h = cres.h * 0.75
     })
 end
 
@@ -83,7 +83,7 @@ function obj:fillModalKeys()
                     text = val,
                     textFont = "Courier-Bold",
                     textSize = 16,
-                    textColor = {hex = "#2390FF", alpha = 1},
+                    textColor = { hex = "#2390FF", alpha = 1 },
                     frame = {
                         x = "74%",
                         y = tostring(idx * 30 / (obj.canvas:frame().h - 60)),
@@ -109,8 +109,9 @@ function obj:processClipboard()
             if urltbl.filePath then
                 -- local file
                 local fex = urltbl.filePath:match(".*%.(%w+)$") or ""
-                local image_ex = {"jpeg", "jpg", "gif", "png", "bmp", "tiff", "icns"}
-                local text_ex = {"", "txt", "md", "markdown", "mkd", "rst", "org", "sh", "zsh", "json", "yml", "mk", "config", "conf", "pub", "gitignore"}
+                local image_ex = { "jpeg", "jpg", "gif", "png", "bmp", "tiff", "icns" }
+                local text_ex = { "", "txt", "md", "markdown", "mkd", "rst", "org", "sh", "zsh", "json", "yml", "mk",
+                    "config", "conf", "pub", "gitignore" }
                 if isFileKinds(fex:lower(), image_ex) then
                     local imagedata = hs.image.imageFromPath(urltbl.filePath)
                     obj.canvas[4] = {
@@ -391,4 +392,5 @@ function obj:openWithCommand(command)
         end
     end
 end
+
 return obj

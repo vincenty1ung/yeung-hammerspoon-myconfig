@@ -6,7 +6,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/PopupTranslateSelection.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/PopupTranslateSelection.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -26,7 +26,8 @@ obj.popup_size = hs.geometry.size(770, 610)
 --- PopupTranslateSelection.popup_style
 --- Variable
 --- Value representing the window style to be used for the translation popup window. This value needs to be a valid argument to [`hs.webview.setStyle()`](http://www.hammerspoon.org/docs/hs.webview.html#windowStyle) (i.e. a combination of values from [`hs.webview.windowMasks`](http://www.hammerspoon.org/docs/hs.webview.html#windowMasks[]). Default value: `hs.webview.windowMasks.utility|hs.webview.windowMasks.HUD|hs.webview.windowMasks.titled|hs.webview.windowMasks.closable`
-obj.popup_style = hs.webview.windowMasks.utility|hs.webview.windowMasks.HUD|hs.webview.windowMasks.titled|hs.webview.windowMasks.closable
+obj.popup_style = hs.webview.windowMasks.utility|hs.webview.windowMasks.HUD|hs.webview.windowMasks.titled|
+hs.webview.windowMasks.closable
 
 --- PopupTranslateSelection.popup_close_on_escape
 --- Variable
@@ -55,25 +56,25 @@ obj.webview = nil
 --- Returns:
 ---  * The PopupTranslateSelection object
 function obj:translatePopup(text, to, from)
-   local query=hs.http.encodeForQuery(text)
-   local url = "http://translate.google.com/translate_t?" ..
-      (from and ("sl=" .. from .. "&") or "") ..
-      (to and ("tl=" .. to .. "&") or "") ..
-      "text=" .. query
-   -- Persist the window between calls to reduce startup time on subsequent calls
-   if self.webview == nil then
-      local rect = hs.geometry.rect(0, 0, self.popup_size.w, self.popup_size.h)
-      rect.center = hs.screen.mainScreen():frame().center
-      self.webview=hs.webview.new(rect)
-         :allowTextEntry(true)
-         :windowStyle(self.popup_style)
-         :closeOnEscape(self.popup_close_on_escape)
-   end
-   self.webview:url(url)
-      :bringToFront()
-      :show()
-   self.webview:hswindow():focus()
-   return self
+    local query = hs.http.encodeForQuery(text)
+    local url = "http://translate.google.com/translate_t?" ..
+        (from and ("sl=" .. from .. "&") or "") ..
+        (to and ("tl=" .. to .. "&") or "") ..
+        "text=" .. query
+    -- Persist the window between calls to reduce startup time on subsequent calls
+    if self.webview == nil then
+        local rect = hs.geometry.rect(0, 0, self.popup_size.w, self.popup_size.h)
+        rect.center = hs.screen.mainScreen():frame().center
+        self.webview = hs.webview.new(rect)
+            :allowTextEntry(true)
+            :windowStyle(self.popup_style)
+            :closeOnEscape(self.popup_close_on_escape)
+    end
+    self.webview:url(url)
+        :bringToFront()
+        :show()
+    self.webview:hswindow():focus()
+    return self
 end
 
 -- Internal function to get the currently selected text.
@@ -81,17 +82,17 @@ end
 -- tries issuing a Cmd-c and getting the pasteboard contents
 -- afterwards.
 function current_selection()
-   local elem=hs.uielement.focusedElement()
-   local sel=nil
-   if elem then
-      sel=elem:selectedText()
-   end
-   if (not sel) or (sel == "") then
-      hs.eventtap.keyStroke({"cmd"}, "c")
-      hs.timer.usleep(20000)
-      sel=hs.pasteboard.getContents()
-   end
-   return (sel or "")
+    local elem = hs.uielement.focusedElement()
+    local sel = nil
+    if elem then
+        sel = elem:selectedText()
+    end
+    if (not sel) or (sel == "") then
+        hs.eventtap.keyStroke({ "cmd" }, "c")
+        hs.timer.usleep(20000)
+        sel = hs.pasteboard.getContents()
+    end
+    return (sel or "")
 end
 
 --- PopupTranslateSelection:translateSelectionPopup(to, from)
@@ -104,9 +105,9 @@ end
 ---
 --- Returns:
 ---  * The PopupTranslateSelection object
-function obj:translateSelectionPopup(to,from)
-   local text=current_selection()
-   return self:translatePopup(text,to,from)
+function obj:translateSelectionPopup(to, from)
+    local text = current_selection()
+    return self:translatePopup(text, to, from)
 end
 
 --- PopupTranslateSelection:bindHotkeys(mapping)
@@ -131,29 +132,29 @@ end
 ---  }
 --- ```
 function obj:bindHotkeys(mapping)
-   local def = {}
-   for action,key in pairs(mapping) do
-      if action == "translate" then
-         def.translate = hs.fnutils.partial(self.translateSelectionPopup, self)
-      elseif action:match("^translate[-_](.*)[-_](.*)$") then
-         local from,to = nil,nil
-         local l1,l2 = action:match("^translate[-_](.*)[-_](.*)$")
-         if l1 == 'from' then
-            -- "translate_from_<lang>"
-            from=l2
-         elseif l1 == 'to' then
-            -- "translate_to_<lang>"
-            to=l2
-         else
-            -- "translate_<from>_<to>"
-            from,to = l1,l2
-         end
-         def[action] = hs.fnutils.partial(self.translateSelectionPopup, self, to, from)
-      else
-         self.logger.ef("Invalid hotkey action '%s'", action)
-      end
-   end
-   hs.spoons.bindHotkeysToSpec(def, mapping)
+    local def = {}
+    for action, key in pairs(mapping) do
+        if action == "translate" then
+            def.translate = hs.fnutils.partial(self.translateSelectionPopup, self)
+        elseif action:match("^translate[-_](.*)[-_](.*)$") then
+            local from, to = nil, nil
+            local l1, l2 = action:match("^translate[-_](.*)[-_](.*)$")
+            if l1 == 'from' then
+                -- "translate_from_<lang>"
+                from = l2
+            elseif l1 == 'to' then
+                -- "translate_to_<lang>"
+                to = l2
+            else
+                -- "translate_<from>_<to>"
+                from, to = l1, l2
+            end
+            def[action] = hs.fnutils.partial(self.translateSelectionPopup, self, to, from)
+        else
+            self.logger.ef("Invalid hotkey action '%s'", action)
+        end
+    end
+    hs.spoons.bindHotkeysToSpec(def, mapping)
 end
 
 return obj

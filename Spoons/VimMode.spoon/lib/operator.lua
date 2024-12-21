@@ -1,32 +1,32 @@
 local Operator = {}
 
 function Operator:new(fields)
-  local operator = fields or {}
+    local operator = fields or {}
 
-  operator.extraChar = nil
+    operator.extraChar = nil
 
-  setmetatable(operator, self)
-  self.__index = self
+    setmetatable(operator, self)
+    self.__index = self
 
-  return operator
+    return operator
 end
 
 function Operator.getModeForTransition()
-  return "normal"
+    return "normal"
 end
 
 function Operator:setExtraChar(char)
-  self.extraChar = char
+    self.extraChar = char
 
-  return self
+    return self
 end
 
 function Operator:getExtraChar()
-  return self.extraChar
+    return self.extraChar
 end
 
 function Operator.getKeys()
-  error("Please implement getKeys()")
+    error("Please implement getKeys()")
 end
 
 return Operator

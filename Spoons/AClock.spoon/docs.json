@@ -1,79 +1,64 @@
 [
   {
-    "Constant" : [
-
+    "Constant": [
     ],
-    "submodules" : [
-
+    "submodules": [
     ],
-    "Function" : [
-
+    "Function": [
     ],
-    "Variable" : [
-
+    "Variable": [
     ],
-    "stripped_doc" : [
-
+    "stripped_doc": [
     ],
-    "Deprecated" : [
-
+    "Deprecated": [
     ],
-    "type" : "Module",
-    "desc" : "Just another clock, floating above all",
-    "Constructor" : [
-
+    "type": "Module",
+    "desc": "Just another clock, floating above all",
+    "Constructor": [
     ],
-    "doc" : "Just another clock, floating above all\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip)",
-    "Field" : [
-
+    "doc": "Just another clock, floating above all\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/AClock.spoon.zip)",
+    "Field": [
     ],
-    "items" : [
+    "items": [
       {
-        "doc" : "Show AClock, if already showing, just hide it.",
-        "stripped_doc" : [
+        "doc": "Show AClock, if already showing, just hide it.",
+        "stripped_doc": [
           "Show AClock, if already showing, just hide it."
         ],
-        "def" : "AClock:toggleShow()",
-        "parameters" : [
-
+        "def": "AClock:toggleShow()",
+        "parameters": [
         ],
-        "notes" : [
-
+        "notes": [
         ],
-        "signature" : "AClock:toggleShow()",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "AClock:toggleShow()",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "toggleShow",
-        "desc" : "Show AClock, if already showing, just hide it."
+        "name": "toggleShow",
+        "desc": "Show AClock, if already showing, just hide it."
       }
     ],
-    "Method" : [
+    "Method": [
       {
-        "doc" : "Show AClock, if already showing, just hide it.",
-        "stripped_doc" : [
+        "doc": "Show AClock, if already showing, just hide it.",
+        "stripped_doc": [
           "Show AClock, if already showing, just hide it."
         ],
-        "def" : "AClock:toggleShow()",
-        "parameters" : [
-
+        "def": "AClock:toggleShow()",
+        "parameters": [
         ],
-        "notes" : [
-
+        "notes": [
         ],
-        "signature" : "AClock:toggleShow()",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "AClock:toggleShow()",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "toggleShow",
-        "desc" : "Show AClock, if already showing, just hide it."
+        "name": "toggleShow",
+        "desc": "Show AClock, if already showing, just hide it."
       }
     ],
-    "Command" : [
-
+    "Command": [
     ],
-    "name" : "AClock"
+    "name": "AClock"
   }
 ]

@@ -6,13 +6,13 @@ local utf8 = dofile(vimModeScriptPath .. "vendor/luautf8.lua")
 local ContextualModal = {}
 
 local function mapToList(map)
-  local list = {}
+    local list = {}
 
-  for key, value in pairs(map) do
-    table.insert(list, key)
-  end
+    for key, value in pairs(map) do
+        table.insert(list, key)
+    end
 
-  return list
+    return list
 end
 
 -- Wraps a modal and provides different key layers depending on which
@@ -38,120 +38,120 @@ end
 -- modal:enterContext("foo") -- pressing 'e' prints 'foo e'
 -- modal:enterContext("bar") -- pressing 'e' prints 'bar e'
 function ContextualModal:new()
-  local registry = Registry:new()
-  local wrapper = {
-    activeContext = nil,
-    bindingContext = nil,
-    bindings = {},
-    entered = false,
-    modal = hs.hotkey.modal.new(),
-    onBeforePress = function() end,
-    registry = registry,
-  }
+    local registry = Registry:new()
+    local wrapper = {
+        activeContext = nil,
+        bindingContext = nil,
+        bindings = {},
+        entered = false,
+        modal = hs.hotkey.modal.new(),
+        onBeforePress = function() end,
+        registry = registry,
+    }
 
-  setmetatable(wrapper, self)
-  self.__index = self
+    setmetatable(wrapper, self)
+    self.__index = self
 
-  return wrapper
+    return wrapper
 end
 
 function ContextualModal:handlePress(mods, key, eventType)
-  return function()
-    local handler = self.registry:getHandler(
-      self.activeContext,
-      mods,
-      key,
-      eventType
-    )
+    return function()
+        local handler = self.registry:getHandler(
+            self.activeContext,
+            mods,
+            key,
+            eventType
+        )
 
-    if handler then
-      self.onBeforePress(mods, key)
-      handler()
+        if handler then
+            self.onBeforePress(mods, key)
+            handler()
+        end
     end
-  end
 end
 
 function ContextualModal:setOnBeforePress(fn)
-  self.onBeforePress = fn
-  return self
+    self.onBeforePress = fn
+    return self
 end
 
 function ContextualModal:hasBinding(mods, key)
-  if not self.bindings[key] then return false end
+    if not self.bindings[key] then return false end
 
-  for _, boundMods in pairs(self.bindings[key]) do
-    if tableUtils.matches(boundMods, mods) then
-      return true
+    for _, boundMods in pairs(self.bindings[key]) do
+        if tableUtils.matches(boundMods, mods) then
+            return true
+        end
     end
-  end
 
-  return false
+    return false
 end
 
 function ContextualModal:registerBinding(mods, key)
-  if not self.bindings[key] then self.bindings[key] = {} end
+    if not self.bindings[key] then self.bindings[key] = {} end
 
-  table.insert(self.bindings[key], mods)
+    table.insert(self.bindings[key], mods)
 
-  return self
+    return self
 end
 
 function ContextualModal:bind(mods, key, pressedfn, releasedfn, repeatfn)
-  self.registry:registerHandler(
-    self.bindingContext,
-    mods,
-    key,
-    pressedfn,
-    releasedfn,
-    repeatfn
-  )
-
-  -- only bind once for this modal
-  if not self:hasBinding(mods, key) then
-    self:registerBinding(mods, key)
-
-    self.modal:bind(
-      mods,
-      key,
-      self:handlePress(mods, key, 'onPressed'),
-      self:handlePress(mods, key, 'onReleased'),
-      self:handlePress(mods, key, 'onRepeat')
+    self.registry:registerHandler(
+        self.bindingContext,
+        mods,
+        key,
+        pressedfn,
+        releasedfn,
+        repeatfn
     )
-  end
 
-  return self
+    -- only bind once for this modal
+    if not self:hasBinding(mods, key) then
+        self:registerBinding(mods, key)
+
+        self.modal:bind(
+            mods,
+            key,
+            self:handlePress(mods, key, 'onPressed'),
+            self:handlePress(mods, key, 'onReleased'),
+            self:handlePress(mods, key, 'onRepeat')
+        )
+    end
+
+    return self
 end
 
 function ContextualModal:bindWithRepeat(mods, key, fn)
-  return self:bind(mods, key, fn, nil, fn)
+    return self:bind(mods, key, fn, nil, fn)
 end
 
 function ContextualModal:withContext(contextKey)
-  self.bindingContext = contextKey
+    self.bindingContext = contextKey
 
-  return self
+    return self
 end
 
 function ContextualModal:enterContext(contextKey)
-  self.activeContext = contextKey
+    self.activeContext = contextKey
 
-  if not self.entered then
-    self.entered = true
-    self.modal:enter()
-  end
+    if not self.entered then
+        self.entered = true
+        self.modal:enter()
+    end
 
-  return self
+    return self
 end
 
 function ContextualModal:exit()
-  self.activeContext = nil
+    self.activeContext = nil
 
-  if self.entered then
-    self.entered = false
-    self.modal:exit()
-  end
+    if self.entered then
+        self.entered = false
+        self.modal:exit()
+    end
 
-  return self
+    return self
 end
 
 return ContextualModal

@@ -1,36 +1,36 @@
 local Motion = {}
 
 function Motion:new(fields)
-  local motion = fields or {}
+    local motion = fields or {}
 
-  motion.extraChar = nil
+    motion.extraChar = nil
 
-  setmetatable(motion, self)
-  self.__index = self
+    setmetatable(motion, self)
+    self.__index = self
 
-  return motion
+    return motion
 end
 
 function Motion:setExtraChar(char)
-  self.extraChar = char
+    self.extraChar = char
 
-  return self
+    return self
 end
 
 function Motion:getExtraChar()
-  return self.extraChar
+    return self.extraChar
 end
 
 function Motion:getMovements()
-  error("Please implement getMovements()")
+    error("Please implement getMovements()")
 end
 
 function Motion:getRange(buffer)
-  error("Please implement getRange()")
+    error("Please implement getRange()")
 end
 
 function Motion.getModeForTransition()
-  return "normal"
+    return "normal"
 end
 
 return Motion

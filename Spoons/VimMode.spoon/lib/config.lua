@@ -1,43 +1,43 @@
 local Config = {}
 
 function Config:new(options)
-  options = options or {}
+    options = options or {}
 
-  -- defaults
-  local config = {
-    alert = {
-      font = "Courier New"
-    },
-    betaFeatures = {},
-    fallbackOnlyUrlPatterns = {},
-    shouldShowAlertInNormalMode = true,
-    shouldDimScreenInNormalMode = true,
-  }
+    -- defaults
+    local config = {
+        alert = {
+            font = "Courier New"
+        },
+        betaFeatures = {},
+        fallbackOnlyUrlPatterns = {},
+        shouldShowAlertInNormalMode = true,
+        shouldDimScreenInNormalMode = true,
+    }
 
-  setmetatable(config, self)
-  self.__index = self
+    setmetatable(config, self)
+    self.__index = self
 
-  config:setOptions(options)
+    config:setOptions(options)
 
-  return config
+    return config
 end
 
 function Config:setOptions(options)
-  for key, value in pairs(options) do
-    self[key] = value
-  end
+    for key, value in pairs(options) do
+        self[key] = value
+    end
 end
 
 function Config:isBetaFeatureEnabled(feature)
-  return not not self.betaFeatures[feature]
+    return not not self.betaFeatures[feature]
 end
 
 function Config:enableBetaFeature(feature)
-  self.betaFeatures[feature] = true
+    self.betaFeatures[feature] = true
 end
 
 function Config:disableBetaFeature(feature)
-  self.betaFeatures[feature] = false
+    self.betaFeatures[feature] = false
 end
 
 return Config

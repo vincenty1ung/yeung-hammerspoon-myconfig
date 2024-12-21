@@ -1,4 +1,3 @@
-
 --- === MountedVolumes ===
 ---
 --- Displays a list of mounted volumes and a pie chart for each indicating free space on the desktop
@@ -6,45 +5,45 @@
 --- Download: https://github.com/Hammerspoon/Spoons/raw/master/Spoons/MountedVolumes.spoon.zip
 
 -- local logger  = require("hs.logger")
-local canvas  = require("hs.canvas")
-local stext   = require("hs.styledtext")
-local fs      = require("hs.fs")
-local fnutils = require("hs.fnutils")
-local timer   = require("hs.timer")
-local alert   = require("hs.alert")
-local spoons  = require("hs.spoons")
+local canvas       = require("hs.canvas")
+local stext        = require("hs.styledtext")
+local fs           = require("hs.fs")
+local fnutils      = require("hs.fnutils")
+local timer        = require("hs.timer")
+local alert        = require("hs.alert")
+local spoons       = require("hs.spoons")
 
-local obj    = {
--- Metadata
+local obj          = {
+    -- Metadata
     name      = "MountedVolumes",
     author    = "A-Ron",
     homepage  = "https://github.com/Hammerspoon/Spoons",
     license   = "MIT - https://opensource.org/licenses/MIT",
     spoonPath = debug.getinfo(1, "S").source:match("^@(.+/).+%.lua$"),
 }
-obj.version   = "0.2"
-local metadataKeys = {} ; for k, v in fnutils.sortByKeys(obj) do table.insert(metadataKeys, k) end
+obj.version        = "0.2"
+local metadataKeys = {}; for k, v in fnutils.sortByKeys(obj) do table.insert(metadataKeys, k) end
 
 
-local unitDetails = {
+local unitDetails     = {
     [false] = { factor = 1024, labels = { "KiB", "MiB", "GiB", "TiB" } },
-    [true]  = { factor = 1000, labels = { "KB",  "MB",  "GB",  "TB"  } },
+    [true]  = { factor = 1000, labels = { "KB", "MB", "GB", "TB" } },
 }
 
-local round = function(number, scale)
+local round           = function(number, scale)
     scale = scale or 2
-    return math.floor(number * (10^scale) + .5) / (10^scale)
+    return math.floor(number * (10 ^ scale) + .5) / (10 ^ scale)
 end
 
-local isnan = function(x) return x ~= x end
+local isnan           = function(x) return x ~= x end
 
-local getStats = function()
+local getStats        = function()
     local results = {}
-    for i,v in fnutils.sortByKeys(fs.volume.allVolumes()) do
+    for i, v in fnutils.sortByKeys(fs.volume.allVolumes()) do
         local total, avail, label = v.NSURLVolumeTotalCapacityKey, v.NSURLVolumeAvailableCapacityKey, "bytes"
         for i2 = #unitDetails[obj.unitsInSI].labels, 1, -1 do
             local scale = unitDetails[obj.unitsInSI].factor ^ i2
-            local newTotal = round(v.NSURLVolumeTotalCapacityKey     / scale)
+            local newTotal = round(v.NSURLVolumeTotalCapacityKey / scale)
             local newAvail = round(v.NSURLVolumeAvailableCapacityKey / scale)
             if newTotal > 1 and newAvail > 1 and not isnan(newAvail / newTotal) then
                 total, avail, label = newTotal, newAvail, unitDetails[obj.unitsInSI].labels[i2]
@@ -56,10 +55,10 @@ local getStats = function()
             v.NSURLVolumeNameKey,
             total,
             avail,
--- ejectability is a pain to figure out... and even this misses internal partitions which are not
--- the boot partition (e.g. BOOTCAMP)
+            -- ejectability is a pain to figure out... and even this misses internal partitions which are not
+            -- the boot partition (e.g. BOOTCAMP)
             (v.NSURLVolumeIsRemovableKey or v.NSURLVolumeIsEjectableKey or not v.NSURLVolumeIsInternalKey)
-                and true or false, -- normalize the above into a predictable value
+            and true or false,     -- normalize the above into a predictable value
             i,
             label,
         })
@@ -67,8 +66,8 @@ local getStats = function()
     return results
 end
 
-obj.__index  = obj
-obj.canvas   = canvas.new{}:mouseCallback(function(c, m, i, x, y)
+obj.__index           = obj
+obj.canvas            = canvas.new {}:mouseCallback(function(c, m, i, x, y)
     if m == "mouseUp" then
         local path = i:match("^eject:(.*)$")
         if path then
@@ -77,11 +76,11 @@ obj.canvas   = canvas.new{}:mouseCallback(function(c, m, i, x, y)
             end
         end
     end
-end):behavior{ "canJoinAllSpaces" }:level(canvas.windowLevels.desktopIcon + 1)
+end):behavior { "canJoinAllSpaces" }:level(canvas.windowLevels.desktopIcon + 1)
 
-local updateVolumes = function(...)
+local updateVolumes   = function(...)
     while (#obj.canvas > 0) do obj.canvas:removeElement() end
-    obj.canvas:appendElements{
+    obj.canvas:appendElements {
         id               = "background",
         type             = "rectangle",
         fillColor        = obj.backgroundColor,
@@ -92,7 +91,7 @@ local updateVolumes = function(...)
 
     local volumeData = getStats()
     local legends, height, width = {}, 0, 0
-    for i,v in ipairs(volumeData) do
+    for i, v in ipairs(volumeData) do
         table.insert(legends, stext.new(
             string.format("%s\n%s of %s %s\nAvailable", v[1], v[3], v[2], v[6]),
             obj.textStyle
@@ -102,14 +101,14 @@ local updateVolumes = function(...)
     end
 
     local ejectText     = stext.new("⏏", {
-        font = stext.defaultFonts.menuBar ,
+        font = stext.defaultFonts.menuBar,
         color = { white = obj.enableEjectButton and 0 or .3 },
     })
     local ejectTextSize = obj.canvas:minimumTextSize(ejectText)
 
-    local offset = { x = 10, y = 10 }
-    for i,v in ipairs(volumeData) do
-        obj.canvas:appendElements{
+    local offset        = { x = 10, y = 10 }
+    for i, v in ipairs(volumeData) do
+        obj.canvas:appendElements {
             {
                 type       = "circle",
                 action     = "fill",
@@ -118,35 +117,35 @@ local updateVolumes = function(...)
                 center     = { x = offset.x + height / 2, y = offset.y + height / 2 },
                 clipToPath = true,
             }, {
-                type       = "arc",
-                action     = "fill",
-                fillColor  = obj.availableColor,
-                radius     = height / 2,
-                center     = { x = offset.x + height / 2, y = offset.y + height / 2 },
-                startAngle = 0,
-                endAngle   = 360 * (v[3] / v[2]),
-                clipToPath = true,
-            }, {
-                type       = "text",
-                text       = legends[i],
-                frame      = {
-                    x = offset.x + height + 10,
-                    y = offset.y,
-                    h = height,
-                    w = width,
-                }
-            }, {
-                type         = "text",
-                id           = "eject:" .. v[5],
-                text         = v[4] and ejectText or "",
-                frame        = {
-                    x = offset.x + height + width + 20,
-                    y = offset.y + (height - ejectTextSize.h) / 2,
-                    h = ejectTextSize.h,
-                    w = ejectTextSize.w,
-                },
-                trackMouseUp = obj.enableEjectButton and v[4],
+            type       = "arc",
+            action     = "fill",
+            fillColor  = obj.availableColor,
+            radius     = height / 2,
+            center     = { x = offset.x + height / 2, y = offset.y + height / 2 },
+            startAngle = 0,
+            endAngle   = 360 * (v[3] / v[2]),
+            clipToPath = true,
+        }, {
+            type  = "text",
+            text  = legends[i],
+            frame = {
+                x = offset.x + height + 10,
+                y = offset.y,
+                h = height,
+                w = width,
             }
+        }, {
+            type         = "text",
+            id           = "eject:" .. v[5],
+            text         = v[4] and ejectText or "",
+            frame        = {
+                x = offset.x + height + width + 20,
+                y = offset.y + (height - ejectTextSize.h) / 2,
+                h = ejectTextSize.h,
+                w = ejectTextSize.w,
+            },
+            trackMouseUp = obj.enableEjectButton and v[4],
+        }
         }
         offset.y = offset.y + height + 10
     end
@@ -161,7 +160,7 @@ end
 -- see obj.start
 -- we use hs.timer.doAfter because the checkInterval may change and we want the next firing to reflect the new interval
 local usageCheckUpdater
-usageCheckUpdater = function(...)
+usageCheckUpdater     = function(...)
     updateVolumes()
     obj._usageTimer = timer.doAfter(obj.checkInterval, usageCheckUpdater)
 end
@@ -176,7 +175,7 @@ end
 --- Boolean, default false, indicating whether capacity is displayed in SI units (1 GB = 10^9 bytes) or Gibibytes (1 GiB = 2^30 bytes).
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.unitsInSI = false
+obj.unitsInSI         = false
 
 --- MountedVolumes.textStyle
 --- Variable
@@ -189,7 +188,7 @@ obj.unitsInSI = false
 ---     }
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.textStyle = {
+obj.textStyle         = {
     font = { name = "Menlo", size = 10 },
     color = { alpha = 1.0 },
     paragraphStyle = { alignment = "center" },
@@ -207,14 +206,14 @@ obj.enableEjectButton = true
 --- A table, as defined in `hs.drawing.color`, specifying the color to use for the in use portion of the volume's capacity pie chart. Defaults to `hs.drawing.color.x11.orangered`
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.capacityColor  = { list = "x11", name = "orangered" }
+obj.capacityColor     = { list = "x11", name = "orangered" }
 
 --- MountedVolumes.freeColor
 --- Variable
 --- A table, as defined in `hs.drawing.color`, specifying the color to use for the free portion of the volume's capacity pie chart. Defaults to `hs.drawing.color.x11.mediumspringgreen`
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.availableColor = { list = "x11", name = "mediumspringgreen" }
+obj.availableColor    = { list = "x11", name = "mediumspringgreen" }
 
 --- MountedVolumes.location
 --- Variable
@@ -222,7 +221,7 @@ obj.availableColor = { list = "x11", name = "mediumspringgreen" }
 --- See also `MountedValues.growsDownwards`.
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.location = { x = 20, y = 22 }
+obj.location          = { x = 20, y = 22 }
 
 --- MountedVolumes.growsDownwards
 --- Variable
@@ -230,35 +229,35 @@ obj.location = { x = 20, y = 22 }
 --- Note that if this value is true, then `MountedVolumes.location` specifies the upper left corner of the display.  If this value is false, then `MountedVolumes.location` specifies the bottom left corner of the display.
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.growsDownwards = true
+obj.growsDownwards    = true
 
 --- MountedVolumes.checkInterval
 --- Variable
 --- A number, default 120, specifying how often in seconds the free space on mounted volumes should be polled for current usage data.
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.checkInterval = 120
+obj.checkInterval     = 120
 
 --- MountedVolumes.backgroundColor
 --- Variable
 --- A table, as defined in `hs.drawing.color`, specifying the color of the volume lists background. Defaults to `{ alpha = .7, white = .5 }`
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.backgroundColor = { alpha = .7, white = .5 }
+obj.backgroundColor   = { alpha = .7, white = .5 }
 
 --- MountedVolumes.backgroundBorder
 --- Variable
 --- A table, as defined in `hs.drawing.color`, specifying the color of the volume lists border. Defaults to `{ alpha = .5 }`
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.backgroundBorder = { alpha = .5 }
+obj.backgroundBorder  = { alpha = .5 }
 
 --- MountedVolumes.cornerRadius
 --- Variable
 --- A number, default 5, specifying how rounded the corners of the volume list background should be.
 ---
 --- Changes will take effect when the next volume change occurs, when the next usage check occurs (see `MountedVolumes.checkInterval`), or when `MountedVolumes:show` is invoked, whichever occurs first.
-obj.cornerRadius = 5
+obj.cornerRadius      = 5
 
 --- MountedVolumes:show()
 --- Method
@@ -272,7 +271,7 @@ obj.cornerRadius = 5
 ---
 --- Notes:
 ---  * If you make a change to any of the variables defining the visual appearance of the volume list, you can force the change to take immediate effect by invoking this method, even if the volume list is already being displayed.
-obj.show = function(self)
+obj.show              = function(self)
     self = self or obj -- correct for calling this as a function
     if not obj._watcher then
         obj._watcher    = fs.volume.new(updateVolumes):start()
@@ -291,7 +290,7 @@ end
 ---
 --- Returns:
 ---  * The MountedVolumes object
-obj.hide = function(self)
+obj.hide              = function(self)
     self = self or obj -- correct for calling this as a function
     if obj._watcher then
         obj._watcher:stop()
@@ -321,7 +320,7 @@ end
 ---    * `command`   - is one of the commands listed above
 ---    * `modifiers` - is a table containing keyboard modifiers, as specified in `hs.hotkey.bind()`
 ---    * `key`       - is a string containing the name of a keyboard key, as specified in `hs.hotkey.bind()`
-obj.bindHotkeys = function(self, mapping)
+obj.bindHotkeys       = function(self, mapping)
     local def = {
         show = obj.show,
         hide = obj.hide,
@@ -335,7 +334,7 @@ return setmetatable(obj, {
         local result, fieldSize = "", 0
         for i, v in ipairs(metadataKeys) do fieldSize = math.max(fieldSize, #v) end
         for i, v in ipairs(metadataKeys) do
-            result = result .. string.format("%-"..tostring(fieldSize) .. "s %s\n", v, self[v])
+            result = result .. string.format("%-" .. tostring(fieldSize) .. "s %s\n", v, self[v])
         end
         return result
     end,

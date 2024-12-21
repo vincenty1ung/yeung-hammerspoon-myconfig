@@ -1,23 +1,22 @@
 local Strategy = {}
 
 function Strategy:new(vim)
-  local strategy = {
-    vim = vim,
-  }
+    local strategy = {
+        vim = vim,
+    }
 
-  setmetatable(strategy, self)
-  self.__index = self
+    setmetatable(strategy, self)
+    self.__index = self
 
-  return strategy
+    return strategy
 end
 
 function Strategy.fire(_)
-  error("Implement fire()")
+    error("Implement fire()")
 end
 
 function Strategy.isValid(_)
-  return true
+    return true
 end
-
 
 return Strategy

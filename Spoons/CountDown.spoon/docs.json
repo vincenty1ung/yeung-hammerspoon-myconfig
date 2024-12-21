@@ -1,163 +1,140 @@
 [
   {
-    "Constant" : [
-
+    "Constant": [
     ],
-    "submodules" : [
-
+    "submodules": [
     ],
-    "Function" : [
-
+    "Function": [
     ],
-    "Variable" : [
-
+    "Variable": [
     ],
-    "stripped_doc" : [
-
+    "stripped_doc": [
     ],
-    "Deprecated" : [
-
+    "Deprecated": [
     ],
-    "type" : "Module",
-    "desc" : "Tiny countdown with visual indicator",
-    "Constructor" : [
-
+    "type": "Module",
+    "desc": "Tiny countdown with visual indicator",
+    "Constructor": [
     ],
-    "Field" : [
-
+    "Field": [
     ],
-    "Method" : [
+    "Method": [
       {
-        "parameters" : [
+        "parameters": [
           " * minutes - How many minutes"
         ],
-        "stripped_doc" : [
+        "stripped_doc": [
           "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.",
           ""
         ],
-        "desc" : "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.",
-        "doc" : "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.\n\nParameters:\n * minutes - How many minutes",
-        "notes" : [
-
+        "desc": "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.",
+        "doc": "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.\n\nParameters:\n * minutes - How many minutes",
+        "notes": [
         ],
-        "signature" : "CountDown:startFor(minutes)",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "CountDown:startFor(minutes)",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "startFor",
-        "def" : "CountDown:startFor(minutes)"
+        "name": "startFor",
+        "def": "CountDown:startFor(minutes)"
       },
       {
-        "parameters" : [
-
+        "parameters": [
         ],
-        "stripped_doc" : [
+        "stripped_doc": [
           "Pause or resume the existing countdown."
         ],
-        "desc" : "Pause or resume the existing countdown.",
-        "doc" : "Pause or resume the existing countdown.",
-        "notes" : [
-
+        "desc": "Pause or resume the existing countdown.",
+        "doc": "Pause or resume the existing countdown.",
+        "notes": [
         ],
-        "signature" : "CountDown:pauseOrResume()",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "CountDown:pauseOrResume()",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "pauseOrResume",
-        "def" : "CountDown:pauseOrResume()"
+        "name": "pauseOrResume",
+        "def": "CountDown:pauseOrResume()"
       },
       {
-        "parameters" : [
+        "parameters": [
           " * progress - an number specifying the value of progress (0.0 - 1.0)"
         ],
-        "stripped_doc" : [
+        "stripped_doc": [
           "Set the progress of visual indicator to `progress`.",
           ""
         ],
-        "desc" : "Set the progress of visual indicator to `progress`.",
-        "doc" : "Set the progress of visual indicator to `progress`.\n\nParameters:\n * progress - an number specifying the value of progress (0.0 - 1.0)",
-        "notes" : [
-
+        "desc": "Set the progress of visual indicator to `progress`.",
+        "doc": "Set the progress of visual indicator to `progress`.\n\nParameters:\n * progress - an number specifying the value of progress (0.0 - 1.0)",
+        "notes": [
         ],
-        "signature" : "CountDown:setProgress(progress)",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "CountDown:setProgress(progress)",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "setProgress",
-        "def" : "CountDown:setProgress(progress)"
+        "name": "setProgress",
+        "def": "CountDown:setProgress(progress)"
       }
     ],
-    "Command" : [
-
+    "Command": [
     ],
-    "items" : [
+    "items": [
       {
-        "parameters" : [
-
+        "parameters": [
         ],
-        "stripped_doc" : [
+        "stripped_doc": [
           "Pause or resume the existing countdown."
         ],
-        "desc" : "Pause or resume the existing countdown.",
-        "doc" : "Pause or resume the existing countdown.",
-        "notes" : [
-
+        "desc": "Pause or resume the existing countdown.",
+        "doc": "Pause or resume the existing countdown.",
+        "notes": [
         ],
-        "signature" : "CountDown:pauseOrResume()",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "CountDown:pauseOrResume()",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "pauseOrResume",
-        "def" : "CountDown:pauseOrResume()"
+        "name": "pauseOrResume",
+        "def": "CountDown:pauseOrResume()"
       },
       {
-        "parameters" : [
+        "parameters": [
           " * progress - an number specifying the value of progress (0.0 - 1.0)"
         ],
-        "stripped_doc" : [
+        "stripped_doc": [
           "Set the progress of visual indicator to `progress`.",
           ""
         ],
-        "desc" : "Set the progress of visual indicator to `progress`.",
-        "doc" : "Set the progress of visual indicator to `progress`.\n\nParameters:\n * progress - an number specifying the value of progress (0.0 - 1.0)",
-        "notes" : [
-
+        "desc": "Set the progress of visual indicator to `progress`.",
+        "doc": "Set the progress of visual indicator to `progress`.\n\nParameters:\n * progress - an number specifying the value of progress (0.0 - 1.0)",
+        "notes": [
         ],
-        "signature" : "CountDown:setProgress(progress)",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "CountDown:setProgress(progress)",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "setProgress",
-        "def" : "CountDown:setProgress(progress)"
+        "name": "setProgress",
+        "def": "CountDown:setProgress(progress)"
       },
       {
-        "parameters" : [
+        "parameters": [
           " * minutes - How many minutes"
         ],
-        "stripped_doc" : [
+        "stripped_doc": [
           "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.",
           ""
         ],
-        "desc" : "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.",
-        "doc" : "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.\n\nParameters:\n * minutes - How many minutes",
-        "notes" : [
-
+        "desc": "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.",
+        "doc": "Start a countdown for `minutes` minutes immediately. Calling this method again will kill the existing countdown instance.\n\nParameters:\n * minutes - How many minutes",
+        "notes": [
         ],
-        "signature" : "CountDown:startFor(minutes)",
-        "type" : "Method",
-        "returns" : [
-
+        "signature": "CountDown:startFor(minutes)",
+        "type": "Method",
+        "returns": [
         ],
-        "name" : "startFor",
-        "def" : "CountDown:startFor(minutes)"
+        "name": "startFor",
+        "def": "CountDown:startFor(minutes)"
       }
     ],
-    "doc" : "Tiny countdown with visual indicator\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/CountDown.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/CountDown.spoon.zip)",
-    "name" : "CountDown"
+    "doc": "Tiny countdown with visual indicator\n\nDownload: [https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/CountDown.spoon.zip](https:\/\/github.com\/Hammerspoon\/Spoons\/raw\/master\/Spoons\/CountDown.spoon.zip)",
+    "name": "CountDown"
   }
 ]

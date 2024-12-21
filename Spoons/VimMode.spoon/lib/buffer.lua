@@ -5,202 +5,202 @@ local utf8 = dofile(vimModeScriptPath .. "vendor/luautf8.lua")
 local Buffer = {}
 
 function Buffer:new()
-  local buffer = {}
+    local buffer = {}
 
-  setmetatable(buffer, self)
-  self.__index = self
+    setmetatable(buffer, self)
+    self.__index = self
 
-  buffer.value = self.value or nil
-  buffer.selection = nil
-  buffer.lines = nil
-  buffer.caretPosition = nil
+    buffer.value = self.value or nil
+    buffer.selection = nil
+    buffer.lines = nil
+    buffer.caretPosition = nil
 
-  return buffer
+    return buffer
 end
 
 function Buffer.getClass()
-  return Buffer
+    return Buffer
 end
 
 function Buffer:createNew(value, rangeLocation, rangeLength)
-  local buffer = self.getClass():new()
+    local buffer = self.getClass():new()
 
-  buffer:setValue(value)
-  buffer:setSelectionRange(rangeLocation or 0, rangeLength or 0)
+    buffer:setValue(value)
+    buffer:setSelectionRange(rangeLocation or 0, rangeLength or 0)
 
-  return buffer
+    return buffer
 end
 
 function Buffer:setValue(value)
-  self.value = value
-  self.lines = nil
+    self.value = value
+    self.lines = nil
 
-  return self
+    return self
 end
 
 function Buffer:getValue()
-  return self.value
+    return self.value
 end
 
 function Buffer:getSelectionRange()
-  return self.selection
+    return self.selection
 end
 
 function Buffer:setCaretPosition(caretPosition)
-  self.caretPosition = caretPosition
+    self.caretPosition = caretPosition
 
-  return self
+    return self
 end
 
 function Buffer:getCaretPosition()
-  if not self.caretPosition then
-    return self:getSelectionRange():positionEnd()
-  else
-    return self.caretPosition
-  end
+    if not self.caretPosition then
+        return self:getSelectionRange():positionEnd()
+    else
+        return self.caretPosition
+    end
 end
 
 function Buffer:setSelectionRange(location, length)
-  self.selection = Selection:new(location, length)
-  return self
+    self.selection = Selection:new(location, length)
+    return self
 end
 
 function Buffer:setSelectionRangeFromSelection(selection)
-  self.selection = selection
-  return self
+    self.selection = selection
+    return self
 end
 
 function Buffer:getCurrentLineNumber()
-  local cursorPosition = self:getCaretPosition()
-  if cursorPosition == 0 then return 1 end
+    local cursorPosition = self:getCaretPosition()
+    if cursorPosition == 0 then return 1 end
 
-  local lines = self:getLines()
+    local lines = self:getLines()
 
-  local currentLine = 0
-  local currentPosition = 0
+    local currentLine = 0
+    local currentPosition = 0
 
-  while currentPosition <= cursorPosition do
-    if currentLine > #lines then break end
+    while currentPosition <= cursorPosition do
+        if currentLine > #lines then break end
 
-    currentLine = currentLine + 1
+        currentLine = currentLine + 1
 
-    -- add 1 for the missing \n that was on the line before splitting
-    currentPosition = currentPosition + utf8.len(lines[currentLine])
-  end
+        -- add 1 for the missing \n that was on the line before splitting
+        currentPosition = currentPosition + utf8.len(lines[currentLine])
+    end
 
-  return currentLine
+    return currentLine
 end
 
 function Buffer:getLength()
-  return utf8.len(self:getValue())
+    return utf8.len(self:getValue())
 end
 
 function Buffer:getLastIndex()
-  return self:getLength()
+    return self:getLength()
 end
 
 function Buffer:lastValueIndex()
-  local length = self:getLength()
+    local length = self:getLength()
 
-  if length == 0 then return 0 end
+    if length == 0 then return 0 end
 
-  return length - 1
+    return length - 1
 end
 
 function Buffer:getContentsBeforeSelection()
-  local contents = utf8.sub(self:getValue(), 0, self.selection:positionEnd())
+    local contents = utf8.sub(self:getValue(), 0, self.selection:positionEnd())
 
-  if contents == "" then return nil end
+    if contents == "" then return nil end
 
-  return contents
+    return contents
 end
 
 function Buffer:getContentsAfterSelection()
-  local contents = utf8.sub(self:getValue(), self.selection:positionEnd() + 1)
+    local contents = utf8.sub(self:getValue(), self.selection:positionEnd() + 1)
 
-  if contents == "" then return nil end
+    if contents == "" then return nil end
 
-  return contents
+    return contents
 end
 
 function Buffer:getLines()
-  if not self.lines then
-    self.lines = stringUtils.split("\n", self:getValue(), true)
-  end
+    if not self.lines then
+        self.lines = stringUtils.split("\n", self:getValue(), true)
+    end
 
-  return self.lines
+    return self.lines
 end
 
 function Buffer:getLineCount()
-  return #self:getLines()
+    return #self:getLines()
 end
 
 function Buffer:getCurrentLine()
-  local lines = self:getLines()
-  return lines[self:getCurrentLineNumber()]
+    local lines = self:getLines()
+    return lines[self:getCurrentLineNumber()]
 end
 
 function Buffer:charAt(position)
-  return utf8.sub(self:getValue(), position + 1, position + 1)
+    return utf8.sub(self:getValue(), position + 1, position + 1)
 end
 
 function Buffer:prevChar()
-  local location = self:getCaretPosition()
-  if location == 0 then return nil end
+    local location = self:getCaretPosition()
+    if location == 0 then return nil end
 
-  return self:charAt(location - 1)
+    return self:charAt(location - 1)
 end
 
 function Buffer:currentChar()
-  return self:charAt(self:getCaretPosition())
+    return self:charAt(self:getCaretPosition())
 end
 
 function Buffer:nextChar()
-  local location = self:getCaretPosition()
-  return self:charAt(location + 1)
+    local location = self:getCaretPosition()
+    return self:charAt(location + 1)
 end
 
 -- 1 indexed
 -- clamps the position to the end of the line in case the column is
 -- out of bounds.
 function Buffer:getPositionForLineAndColumn(line, column)
-  local lineRange = self:getRangeForLineNumber(line)
-  local maxColumn = lineRange.length
+    local lineRange = self:getRangeForLineNumber(line)
+    local maxColumn = lineRange.length
 
-  column = math.min(column, maxColumn)
+    column = math.min(column, maxColumn)
 
-  return lineRange.location + column - 1
+    return lineRange.location + column - 1
 end
 
 function Buffer:getCurrentColumn()
-  local start = self:getCurrentLineRange().location
-  local currentPosition = self:getCaretPosition()
+    local start = self:getCurrentLineRange().location
+    local currentPosition = self:getCaretPosition()
 
-  return currentPosition - start + 1
+    return currentPosition - start + 1
 end
 
 function Buffer:getCurrentLineRange()
-  local currentLineNumber = self:getCurrentLineNumber()
+    local currentLineNumber = self:getCurrentLineNumber()
 
-  return self:getRangeForLineNumber(currentLineNumber)
+    return self:getRangeForLineNumber(currentLineNumber)
 end
 
 function Buffer:getRangeForLineNumber(lineNumber)
-  local lines = self:getLines()
-  local start = 0
+    local lines = self:getLines()
+    local start = 0
 
-  for i, line in ipairs(lines) do
-    if i == lineNumber then break end
-    start = start + utf8.len(line)
-  end
+    for i, line in ipairs(lines) do
+        if i == lineNumber then break end
+        start = start + utf8.len(line)
+    end
 
-  local length = #lines[lineNumber]
+    local length = #lines[lineNumber]
 
-  return Selection:new(start, length)
+    return Selection:new(start, length)
 end
 
 function Buffer:isOnLastLine()
-  return self:getCurrentLineNumber() == self:getLineCount()
+    return self:getCurrentLineNumber() == self:getLineCount()
 end
 
 return Buffer

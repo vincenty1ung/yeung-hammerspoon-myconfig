@@ -1,23 +1,29 @@
 # yeung-hammerspoon-myconfig
+
 hammerspoon-myconfig private fork to...
-# [hammerspoon-config](hammerspoon-config) 
 
+# [hammerspoon-config](hammerspoon-config)
 
-> 本配置基于 vim 风格，实现了窗口管理，剪切板，倒计时，快速启动等功能。所有模式按照指定快捷键进入，所有模式都可以用 `esc` 或 `q`退出。在进入对应模式之前只有模式快捷键生效，进入对应模式之后此模式的操作快捷键生效。
+> 本配置基于 vim 风格，实现了窗口管理，剪切板，倒计时，快速启动等功能。所有模式按照指定快捷键进入，所有模式都可以用 `esc` 或
+`q`退出。在进入对应模式之前只有模式快捷键生效，进入对应模式之后此模式的操作快捷键生效。
 > 将屏幕分为上下左右四个布局
-> 快捷键：cmd+3 建立屏幕布局于快捷键的绑定，鼠标定位，hyper + a 回到主屏幕，hyper + up 回到主屏幕上的一个屏幕，hyper + down 回到主屏幕下的一个屏幕，hyper + left 回到主屏幕左边的屏幕，hyper + right 回到主屏幕右边的屏幕，
+> 快捷键：cmd+3 建立屏幕布局于快捷键的绑定，鼠标定位，hyper + a 回到主屏幕，hyper + up 回到主屏幕上的一个屏幕，hyper + down
+> 回到主屏幕下的一个屏幕，hyper + left 回到主屏幕左边的屏幕，hyper + right 回到主屏幕右边的屏幕，
 
 ## 安装配置与升级:
 
-安装 hammerspoon 
+安装 hammerspoon
+
 ```
 brew install hammerspoon
 ```
 
 将配置文件克隆到本地根目录。
+
 ```
 git clone https://github.com/uncleyeung/yeung-hammerspoon-myconfig.git ~/.hammerspoon
 ```
+
 **重新加载配置文件即可生效**。
 
 如果提示：already exists and is not an empty directory.
@@ -38,12 +44,13 @@ cd ~/.hammerspoon && git pull
 **注：所有模式按 `esc` 和 `q` 退出。**
 
 ### 帮助面板
+
 按下快捷键 `shift` + `option` + `/` 显示帮助面板查看各个模式快捷键。再按下对应快捷键切换模式。
 
 ![](http://ww1.sinaimg.cn/large/006tNc79ly1g4pzrve6gsj31c00u0k0p.jpg)
 
-
 ### 窗口管理模式
+
 按下前缀键 `Option` + `R` 进入窗口管理模式：
 
 * 使用 `h、j、k、l` 移动为上下左右的半屏
@@ -56,14 +63,13 @@ cd ~/.hammerspoon && git pull
 * 使用 `space` 将窗口投送到另外一块屏幕（假如有两块以上显示器的话）
 * 使用 `t` 光标移动到所在窗口的中间位置
 * 使用 `tab` 显示帮助面板，查看键位图
-* 使用 `G` 左三分之二居中分屏 
-* 使用 `Z` 展示显示 
-* 使用 `V` 编程显示 
-* 使用 `t` 将光标移至所在窗口的中心位置 
-* 使用 `X` 三分之一居中分屏 
+* 使用 `G` 左三分之二居中分屏
+* 使用 `Z` 展示显示
+* 使用 `V` 编程显示
+* 使用 `t` 将光标移至所在窗口的中心位置
+* 使用 `X` 三分之一居中分屏
 
-
-![](http://ww4.sinaimg.cn/large/006tNc79ly1g4pz9dhogwj31c00u04aw.jpg) 
+![](http://ww4.sinaimg.cn/large/006tNc79ly1g4pz9dhogwj31c00u04aw.jpg)
 
 注：如设置程序坞自动隐藏请修改  `/Users/zuorn/.hammerspoon/Spoons/WinWin.spoon/init.lua.bak` 为`init.lua`
 
@@ -72,15 +78,11 @@ cd ~/.hammerspoon && git pull
 按下前缀键 `Option` + `tab` 显示窗口提示，按下对应应用显示的字母快速切换。
 ![快速切换](https://i.loli.net/2019/07/06/5d20193818dd473100.png)
 
-
-
-
 ### KSheet - 展示应用快捷键
 
 按下快捷键 `Option` + `s` 展示当前应用快捷键，按 `q` 或者 `esc` 退出。
 
 ![应用快捷键](https://i.loli.net/2019/07/06/5d2019381760e52911.png)
-
 
 ### 快速启动
 
@@ -88,22 +90,19 @@ cd ~/.hammerspoon && git pull
 
 ![启动器](https://i.loli.net/2019/07/06/5d2019368b6dc67355.png)
 
-
 ### AClock - 显示当前时间
 
 按下 `Option` + `t` 显示当前时间。
 
 ![时钟](https://i.loli.net/2019/07/06/5d201936dbfdf69558.png)
 
-
 ### 倒计时（番茄钟）
 
 按下 `Option` + `i` 打开倒计时面板，按下对应数字开始计时。
 
-* 使用 `空格` 可暂停/恢复倒计时。 
+* 使用 `空格` 可暂停/恢复倒计时。
 
 ![倒计时](https://i.loli.net/2019/07/06/5d2019372da4545679.png)
-
 
 ### clipshowM 剪切板
 
@@ -138,14 +137,13 @@ cp ~/.hammerspoon/config-example.lua ~/.hammerspoon/private/config.lua
 
 按照注释编辑私有配置文件 `~/.hammerspoon/private/config.lua` 即可。
 
-####  可自定义范围：
+#### 可自定义范围：
 
 * 指定要启用模块
-*  找到配置文件启用模块，注释对应模块可禁止用对应功能。
+* 找到配置文件启用模块，注释对应模块可禁止用对应功能。
 * 绑定快速启动 app 及快捷键
 * 自定义模式快捷键
 * 自定义 hammerspoon 快捷键绑定
-
 
 ## 参考：
 

@@ -4,7 +4,7 @@
 ---
 --- Download: [https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpeedMenu.spoon.zip](https://github.com/Hammerspoon/Spoons/raw/master/Spoons/SpeedMenu.spoon.zip)
 
-local obj={}
+local obj = {}
 obj.__index = obj
 
 -- Metadata
@@ -24,21 +24,21 @@ local function data_diff()
     local out_seq = hs.execute(obj.outstr)
     local in_diff = in_seq - obj.inseq
     local out_diff = out_seq - obj.outseq
-    if in_diff/1024 > 1024 then
-        obj.kbin = string.format("%6.2f", in_diff/1024/1024) .. ' mb/s'
+    if in_diff / 1024 > 1024 then
+        obj.kbin = string.format("%6.2f", in_diff / 1024 / 1024) .. ' mb/s'
     else
-        obj.kbin = string.format("%6.2f", in_diff/1024) .. ' kb/s'
+        obj.kbin = string.format("%6.2f", in_diff / 1024) .. ' kb/s'
     end
-    if out_diff/1024 > 1024 then
-        obj.kbout = string.format("%6.2f", out_diff/1024/1024) .. ' mb/s'
+    if out_diff / 1024 > 1024 then
+        obj.kbout = string.format("%6.2f", out_diff / 1024 / 1024) .. ' mb/s'
     else
-        obj.kbout = string.format("%6.2f", out_diff/1024) .. ' kb/s'
+        obj.kbout = string.format("%6.2f", out_diff / 1024) .. ' kb/s'
     end
     local disp_str = '⥄ ' .. obj.kbout .. '\n⥂ ' .. obj.kbin
     if obj.darkmode then
-        obj.disp_str = hs.styledtext.new(disp_str, {font={size=9.0, color={hex="#FFFFFF"}}})
+        obj.disp_str = hs.styledtext.new(disp_str, { font = { size = 9.0, color = { hex = "#FFFFFF" } } })
     else
-        obj.disp_str = hs.styledtext.new(disp_str, {font={size=9.0, color={hex="#000000"}}})
+        obj.disp_str = hs.styledtext.new(disp_str, { font = { size = 9.0, color = { hex = "#000000" } } })
     end
     obj.menubar:setTitle(obj.disp_str)
     obj.inseq = in_seq
@@ -52,7 +52,8 @@ end
 
 function obj:rescan()
     obj.interface = hs.network.primaryInterfaces()
-    obj.darkmode = hs.osascript.applescript('tell application "System Events"\nreturn dark mode of appearance preferences\nend tell')
+    obj.darkmode = hs.osascript.applescript(
+    'tell application "System Events"\nreturn dark mode of appearance preferences\nend tell')
     local menuitems_table = {}
     if obj.interface then
         -- Inspect active interface and create menuitems

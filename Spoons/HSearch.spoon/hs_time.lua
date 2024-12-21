@@ -1,4 +1,4 @@
-local obj={}
+local obj = {}
 obj.__index = obj
 
 obj.name = "timeDelta"
@@ -14,7 +14,8 @@ end
 obj.spoonPath = script_path()
 
 -- Define the source's overview. A unique `keyword` key should exist, so this source can be found.
-obj.overview = {text="Type d ⇥ to format/query Date.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png"), keyword="d"}
+obj.overview = { text = "Type d ⇥ to format/query Date.", image = hs.image.imageFromPath(obj.spoonPath ..
+"/resources/time.png"), keyword = "d" }
 -- Define the notice when a long-time request is being executed. It could be `nil`.
 obj.notice = nil
 
@@ -33,7 +34,8 @@ obj.exec_args = {
 local function timeRequest()
     local chooser_data = hs.fnutils.imap(obj.exec_args, function(item)
         local exec_result = hs.execute("date " .. item)
-        return {text=exec_result, subText="date " .. item, image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png"), output="keystrokes", arg=exec_result}
+        return { text = exec_result, subText = "date " .. item, image = hs.image.imageFromPath(obj.spoonPath ..
+        "/resources/time.png"), output = "keystrokes", arg = exec_result }
     end)
     return chooser_data
 end
@@ -41,13 +43,14 @@ end
 obj.init_func = timeRequest
 -- Insert a friendly tip at the head so users know what to do next.
 -- As this source highly relys on queryChangedCallback, we'd better tip users in callback instead of here
-obj.description = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png")}
+obj.description = { text = "Date Query", subText = "Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image =
+hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png") }
 
 -- As the user is typing, the callback function will be called for every keypress. The returned value is a table.
 
 local function splitBySpace(str)
     local tmptbl = {}
-    for w in string.gmatch(str,"[+-]?%d+[ymdwHMS]") do table.insert(tmptbl,w) end
+    for w in string.gmatch(str, "[+-]?%d+[ymdwHMS]") do table.insert(tmptbl, w) end
     return tmptbl
 end
 
@@ -62,9 +65,12 @@ local function timeDeltaRequest(querystr)
             local chooser_data = hs.fnutils.imap(obj.exec_args, function(item)
                 local new_exec_command = "date " .. vv_var .. " " .. item
                 local new_exec_result = hs.execute(new_exec_command)
-                return {text=new_exec_result, subText=new_exec_command, image=hs.image.imageFromPath(obj.spoonPath .. "/resources/time.png"), output="keystrokes", arg=new_exec_result}
+                return { text = new_exec_result, subText = new_exec_command, image = hs.image.imageFromPath(obj
+                .spoonPath .. "/resources/time.png"), output = "keystrokes", arg = new_exec_result }
             end)
-            local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(hs.configdir.."/resources/time.png")}
+            local source_desc = { text = "Date Query", subText =
+            "Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image = hs.image.imageFromPath(hs
+            .configdir .. "/resources/time.png") }
             table.insert(chooser_data, 1, source_desc)
             if spoon.HSearch then
                 -- Make sure HSearch spoon is running now
@@ -73,7 +79,9 @@ local function timeDeltaRequest(querystr)
         end
     else
         local chooser_data = timeRequest()
-        local source_desc = {text="Date Query", subText="Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image=hs.image.imageFromPath(hs.configdir.."/resources/time.png")}
+        local source_desc = { text = "Date Query", subText =
+        "Type +/-1d (or y, m, w, H, M, S) to query date forward or backward.", image = hs.image.imageFromPath(hs
+        .configdir .. "/resources/time.png") }
         table.insert(chooser_data, 1, source_desc)
         if spoon.HSearch then
             -- Make sure HSearch spoon is running now

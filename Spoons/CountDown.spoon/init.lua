@@ -18,7 +18,7 @@ obj.canvas = nil
 obj.timer = nil
 
 function obj:init()
-    self.canvas = hs.canvas.new({x=0, y=0, w=0, h=0}):show()
+    self.canvas = hs.canvas.new({ x = 0, y = 0, w = 0, h = 0 }):show()
     self.canvas:behavior(hs.canvas.windowBehaviors.canJoinAllSpaces)
     self.canvas:level(hs.canvas.windowLevels.status)
     self.canvas:alpha(0.35)
@@ -26,13 +26,13 @@ function obj:init()
         type = "rectangle",
         action = "fill",
         fillColor = hs.drawing.color.osx_red,
-        frame = {x="0%", y="0%", w="0%", h="100%"}
+        frame = { x = "0%", y = "0%", w = "0%", h = "100%" }
     }
     self.canvas[2] = {
         type = "rectangle",
         action = "fill",
         fillColor = hs.drawing.color.osx_green,
-        frame = {x="0%", y="0%", w="0%", h="100%"}
+        frame = { x = "0%", y = "0%", w = "0%", h = "100%" }
     }
 end
 
@@ -51,7 +51,7 @@ local function canvasCleanup()
     obj.canvas[1].frame.w = "0%"
     obj.canvas[2].frame.x = "0%"
     obj.canvas[2].frame.w = "0%"
-    obj.canvas:frame({x=0, y=0, w=0, h=0})
+    obj.canvas:frame({ x = 0, y = 0, w = 0, h = 0 })
 end
 
 function obj:startFor(minutes)
@@ -60,20 +60,20 @@ function obj:startFor(minutes)
     else
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        obj.canvas:frame({x=mainRes.x, y=mainRes.y+mainRes.h-5, w=mainRes.w, h=5})
+        obj.canvas:frame({ x = mainRes.x, y = mainRes.y + mainRes.h - 5, w = mainRes.w, h = 5 })
         -- Set minimum visual step to 2px (i.e. Make sure every trigger updates 2px on screen at least.)
         local minimumStep = 2
-        local secCount = math.ceil(60*minutes)
+        local secCount = math.ceil(60 * minutes)
         obj.loopCount = 0
-        if mainRes.w/secCount >= 2 then
+        if mainRes.w / secCount >= 2 then
             obj.timer = hs.timer.doEvery(1, function()
-                obj.loopCount = obj.loopCount+1/secCount
+                obj.loopCount = obj.loopCount + 1 / secCount
                 obj:setProgress(obj.loopCount, minutes)
             end)
         else
-            local interval = 2/(mainRes.w/secCount)
+            local interval = 2 / (mainRes.w / secCount)
             obj.timer = hs.timer.doEvery(interval, function()
-                obj.loopCount = obj.loopCount+1/mainRes.w*2
+                obj.loopCount = obj.loopCount + 1 / mainRes.w * 2
                 obj:setProgress(obj.loopCount, minutes)
             end)
         end
@@ -109,7 +109,7 @@ function obj:setProgress(progress, notifystr)
         -- Make the canvas actully visible
         local mainScreen = hs.screen.mainScreen()
         local mainRes = mainScreen:fullFrame()
-        obj.canvas:frame({x=mainRes.x, y=mainRes.y+mainRes.h-5, w=mainRes.w, h=5})
+        obj.canvas:frame({ x = mainRes.x, y = mainRes.y + mainRes.h - 5, w = mainRes.w, h = 5 })
     end
     if progress >= 1 then
         canvasCleanup()
@@ -121,11 +121,10 @@ function obj:setProgress(progress, notifystr)
         end
         -- 倒计时结束后锁屏
         hs.caffeinate.lockScreen()
-
     else
         obj.canvas[1].frame.w = tostring(progress)
         obj.canvas[2].frame.x = tostring(progress)
-        obj.canvas[2].frame.w = tostring(1-progress)
+        obj.canvas[2].frame.w = tostring(1 - progress)
     end
 end
 

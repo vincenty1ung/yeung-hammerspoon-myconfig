@@ -1,4 +1,4 @@
-local obj={}
+local obj = {}
 obj.__index = obj
 
 obj.name = "MLemoji"
@@ -14,13 +14,14 @@ end
 obj.spoonPath = script_path()
 
 -- Define the source's overview. A unique `keyword` key should exist, so this source can be found.
-obj.overview = {text="Type e ⇥ to find relevant Emoji.", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/emoji.png"), keyword="e"}
+obj.overview = { text = "Type e ⇥ to find relevant Emoji.", image = hs.image.imageFromPath(obj.spoonPath ..
+"/resources/emoji.png"), keyword = "e" }
 -- Define the notice when a long-time request is being executed. It could be `nil`.
 obj.notice = nil
 
 local function emojiTips()
     local chooser_data = {
-        {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath(obj.spoonPath .. "/resources/emoji.png")}
+        { text = "Relevant Emoji", subText = "Type something to find relevant emoji from text …", image = hs.image.imageFromPath(obj.spoonPath .. "/resources/emoji.png") }
     }
     return chooser_data
 end
@@ -35,7 +36,7 @@ obj.description = nil
 -- Some global objects
 local emoji_database_path = "/System/Library/Input Methods/CharacterPalette.app/Contents/Resources/CharacterDB.sqlite3"
 obj.database = hs.sqlite3.open(emoji_database_path)
-obj.canvas = hs.canvas.new({x=0, y=0, w=96, h=96})
+obj.canvas = hs.canvas.new({ x = 0, y = 0, w = 96, h = 96 })
 
 local function getEmojiDesc(arg)
     for w in obj.database:rows("SELECT info FROM unihan_dict WHERE uchr=\'" .. arg .. "\'") do
@@ -55,11 +56,12 @@ local function emojiRequest(querystr)
                     local decoded_data = hs.json.decode(data)
                     if decoded_data.results and #decoded_data.results > 0 then
                         local chooser_data = hs.fnutils.imap(decoded_data.results, function(item)
-                            obj.canvas[1] = {type="text", text=item.text, textSize=64, frame={x="15%", y="10%", w="100%", h="100%"}}
+                            obj.canvas[1] = { type = "text", text = item.text, textSize = 64, frame = { x = "15%", y = "10%", w = "100%", h = "100%" } }
                             local hexcode = string.format("%#X", utf8.codepoint(item.text))
                             local emoji_description = getEmojiDesc(item.text)
                             local formatted_desc = string.gsub(emoji_description, "|||||||||||||||", "")
-                            return {text = formatted_desc, image=obj.canvas:imageFromCanvas(), subText="Hex Code: " .. hexcode, outputType="keystrokes", arg=item.text}
+                            return { text = formatted_desc, image = obj.canvas:imageFromCanvas(), subText = "Hex Code: " ..
+                            hexcode, outputType = "keystrokes", arg = item.text }
                         end)
                         -- Because we don't know when asyncGet will return data, we have to refresh hs.chooser choices in this callback.
                         if spoon.HSearch then
@@ -73,7 +75,7 @@ local function emojiRequest(querystr)
         end)
     else
         local chooser_data = {
-            {text="Relevant Emoji", subText="Type something to find relevant emoji from text …", image=hs.image.imageFromPath(hs.configdir.."/resources/emoji.png")}
+            { text = "Relevant Emoji", subText = "Type something to find relevant emoji from text …", image = hs.image.imageFromPath(hs.configdir .. "/resources/emoji.png") }
         }
         if spoon.HSearch then
             spoon.HSearch.chooser:choices(chooser_data)
