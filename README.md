@@ -21,7 +21,7 @@ brew install hammerspoon
 将配置文件克隆到本地根目录。
 
 ```
-git clone https://github.com/uncleyeung/yeung-hammerspoon-myconfig.git ~/.hammerspoon
+git clone https://github.com/vincenty1ung/yeung-hammerspoon-myconfig.git ~/.hammerspoon
 ```
 
 **重新加载配置文件即可生效**。
@@ -47,7 +47,7 @@ cd ~/.hammerspoon && git pull
 
 按下快捷键 `shift` + `option` + `/` 显示帮助面板查看各个模式快捷键。再按下对应快捷键切换模式。
 
-![](http://ww1.sinaimg.cn/large/006tNc79ly1g4pzrve6gsj31c00u0k0p.jpg)
+![](./images/img.png)
 
 ### 窗口管理模式
 

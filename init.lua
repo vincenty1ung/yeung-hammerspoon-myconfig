@@ -1217,10 +1217,10 @@ hs.hotkey.bind(hPauseMusicKeys[1], hPauseMusicKeys[2], pauseMusic)
 spoon.ModalMgr.supervisor:bind(hPauseMusicKeys[1], hPauseMusicKeys[2], "音乐暂停", pauseMusic)
 -- 音乐上一首
 --hs.hotkey.bind(hBeforeMusicKeys[1], hBeforeMusicKeys[2], beforeMusic)
-spoon.ModalMgr.supervisor:bind(hBeforeMusicKeys[1], hBeforeMusicKeys[2], "音乐上一首", beforeMusic)
+-- spoon.ModalMgr.supervisor:bind(hBeforeMusicKeys[1], hBeforeMusicKeys[2], "音乐上一首", beforeMusic)
 -- 音乐下一首
 --hs.hotkey.bind(hAfterMusicKeys[1], hAfterMusicKeys[2], afterMusic)
-spoon.ModalMgr.supervisor:bind(hAfterMusicKeys[1], hAfterMusicKeys[2], "音乐下一首", afterMusic)
+--spoon.ModalMgr.supervisor:bind(hAfterMusicKeys[1], hAfterMusicKeys[2], "音乐下一首", afterMusic)
 
 
 ----------------------------------------------------------------------------------------------------
